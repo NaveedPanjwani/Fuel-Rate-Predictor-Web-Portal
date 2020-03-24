@@ -18,7 +18,8 @@
   "homepage": "https://github.com/NaveedPanjwani/Fuel-Rate-Predictor-Web-Portal#readme",
   "dependencies": {
     "create-react-app": "^3.4.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "npm": "^6.14.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
