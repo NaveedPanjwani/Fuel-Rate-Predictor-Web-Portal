@@ -21,14 +21,12 @@
     "config": "^3.3.0",
     "create-react-app": "^3.4.1",
     "express": "^4.17.1",
-<<<<<<< HEAD
     "npm": "^6.14.3"
-=======
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.6",
     "request": "^2.88.2"
->>>>>>> master
+
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
