@@ -4,7 +4,8 @@
   "description": "Software Design Project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodeman ./index.js --exec babel-node -e js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,12 +22,12 @@
     "config": "^3.3.0",
     "create-react-app": "^3.4.1",
     "express": "^4.17.1",
-    "npm": "^6.14.3",
     "express-validator": "^6.4.0",
+    "fund": "^1.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.6",
+    "npm": "^6.14.3",
     "request": "^2.88.2"
-
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
