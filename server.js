@@ -6,6 +6,10 @@ const PORT = process.env.PORT || 3000;
 app.get('/', (request, response) => {
   response.send(`Node and express server is running on port ${PORT}`);
 });
+//Defining the routes
+
+app.use('/api/forum', require('./routes/api/forum'));
+app.use('/api/history', require('./routes/api/history'));
 
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
