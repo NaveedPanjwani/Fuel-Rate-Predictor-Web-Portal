@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 
+const Forum = requre('../../models/Forum');
+
 //route: Post api/form,
 // description: trying to put the data in a database
 // access: private: need web token
@@ -28,14 +30,23 @@ router.post(
       .not()
       .isEmpty()
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    const {
+      client_location,
+      competitors_rate,
+      client_history,
+      gallons_requested,
+      Company_profit_margin,
+      seasonal_rate_fluctuation
+    } = req.body;
+    try {
+      res.send('Forum route');
+    } catch (err) {}
     console.log(req.body);
-
-    res.send('Forum route');
   }
 );
 module.exports = router;
