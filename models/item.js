@@ -24,4 +24,4 @@ const itemSchema = new Schema({
     }
 });
 
-module.exports = Item = mangoose.model('item', ItemSchema);
+//module.exports = Item = mangoose.model('item', itemSchema);

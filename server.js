@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 //const items = require('./routes/api/items');
 
 const app = express();
-const PORT = 3000;
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/FuelRate',{
+mongoose
+    .connect('mongodb://localhost/FuelRate',{
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -23,10 +23,20 @@ app.use(bodyParser.json());
 
 
 
-app.get('/',(request,response) => {
-    response.send(`Node and express server is running on port ${PORT}`);
-});
 
-app.listen(PORT, () =>{
-    console.log(`Your server is running on port ${PORT}`);
+const PORT = process.env.PORT || 3000;
+//Doing middleware here
+app.use(express.json({ extended: false }));
+app.get('/', (request, response) => {
+  response.send(`Node and express server is running on port ${PORT}`);
+
 });
+//Defining the routes
+
+app.use('/api/forum', require('./routes/api/forum'));
+app.use('/api/history', require('./routes/api/history'));
+
+
+app.listen(PORT, () => {
+    console.log(`Your server is running on port ${PORT}`);
+  });
