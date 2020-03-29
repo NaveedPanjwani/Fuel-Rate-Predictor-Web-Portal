@@ -42,12 +42,22 @@ class RegisterModal extends Component {
                     <ModalBody>
                         <Form onSubmit= {this.onSubmit}>
                             <FormGroup>
-                                <Label for="name">Name</Label>
+                                <Label for="firstname">First Name</Label>
                                 <Input 
                                     type="text"
                                     name = "name"
                                     id = "name"
-                                    placeholder="Name"
+                                    placeholder="Last Name"
+                                    className = "mb-3"
+                                    onChange = {this.OnChange}
+                                />
+
+                                <Label for="lastname">Last Name</Label>
+                                <Input 
+                                    type="text"
+                                    name = "name"
+                                    id = "name"
+                                    placeholder="First Name"
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
@@ -82,7 +92,11 @@ class RegisterModal extends Component {
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
-                                <Button color='dark' style= {{marginTop: '2rem'}} block>
+                                <Button type="reset" color='danger' style= {{marginTop: '2rem'}} block>
+                                    Reset
+                                </Button>
+
+                                <Button color='secondary' style= {{marginTop: '2rem'}} block>
                                     Register
                                 </Button> 
                             </FormGroup>
