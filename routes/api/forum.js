@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 
-const Forum = requre('../../models/Forum');
+//const Forum = requre('../../models/Forum');
 
 //route: Post api/form,
 // description: trying to put the data in a database
@@ -45,7 +45,10 @@ router.post(
     } = req.body;
     try {
       res.send('Forum route');
-    } catch (err) {}
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
     console.log(req.body);
   }
 );
