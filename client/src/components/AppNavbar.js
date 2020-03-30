@@ -10,7 +10,6 @@ import {
 } from 'reactstrap';
 import RegisterModal from './auth/RegisterModal';
 
-
 class AppNavbar extends Component {
 
     state = {

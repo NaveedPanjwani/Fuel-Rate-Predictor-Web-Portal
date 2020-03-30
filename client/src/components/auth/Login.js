@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import login_logo from '../../login_logo.svg';
-import './Login.css';
+import '../index.css';
 
 import {
     Button, 

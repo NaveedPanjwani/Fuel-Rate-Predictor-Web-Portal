@@ -30,7 +30,15 @@ class RegisterModal extends Component {
         this.setState( {
             modal: !this.state.modal
         });
-    }
+
+    
+    // onSubmit = e => {
+    //     e.preventDefault();
+    // }
+
+    // this.toggle();
+
+    };
     
     render(){
         return (
@@ -45,9 +53,9 @@ class RegisterModal extends Component {
                                 <Label for="firstname">First Name</Label>
                                 <Input 
                                     type="text"
-                                    name = "name"
-                                    id = "name"
-                                    placeholder="Last Name"
+                                    name = "firstname"
+                                    id = "firstname"
+                                    placeholder="First Name"
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
@@ -55,9 +63,9 @@ class RegisterModal extends Component {
                                 <Label for="lastname">Last Name</Label>
                                 <Input 
                                     type="text"
-                                    name = "name"
-                                    id = "name"
-                                    placeholder="First Name"
+                                    name = "lastname"
+                                    id = "lastname"
+                                    placeholder="Last Name"
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
@@ -86,17 +94,13 @@ class RegisterModal extends Component {
                                 <Label for="password">Confrim Password</Label>
                                 <Input 
                                     type="password"
-                                    name = "password"
-                                    id = "password"
-                                    placeholder="Password"
+                                    name = "confirmpassword"
+                                    id = "confirmpassword"
+                                    placeholder="Retype Password"
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
-                                <Button type="reset" color='danger' style= {{marginTop: '2rem'}} block>
-                                    Reset
-                                </Button>
-
-                                <Button color='secondary' style= {{marginTop: '2rem'}} block>
+                                <Button color='success' style= {{marginTop: '2rem'}} block>
                                     Register
                                 </Button> 
                             </FormGroup>
@@ -106,7 +110,6 @@ class RegisterModal extends Component {
             </div>
         );
     }
-
 }
 
 export default RegisterModal;
