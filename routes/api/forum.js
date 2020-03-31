@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
-//const Forum = requre('../../models/Forum');
+const Forum = require('../../models/Forum');
 
 //route: Post api/form,
 // description: trying to put the data in a database
@@ -10,25 +12,18 @@ const { check, validationResult } = require('express-validator/check');
 
 router.post(
   '/',
+  auth,
   [
-    check('client_location', '')
+    check('Gallons_Requested', '').isNumeric(),
+    check('Delivery_Address', '')
       .not()
       .isEmpty(),
-    check('competitors_rate', '')
+    check('Delivery_Date', '')
       .not()
       .isEmpty(),
-    check('client_history', '')
-      .not()
-      .isEmpty(),
-    check('gallons_requested', '')
-      .not()
-      .isEmpty(),
-    check('Company_profit_margin', '')
-      .not()
-      .isEmpty(),
-    check('seasonal_rate_fluctuation', '')
-      .not()
-      .isEmpty()
+    check('Suggested_Price', '').isNumeric(),
+    ,
+    check('Total_Amount_Due', '').isNumeric()
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -36,12 +31,11 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const {
-      client_location,
-      competitors_rate,
-      client_history,
-      gallons_requested,
-      Company_profit_margin,
-      seasonal_rate_fluctuation
+      Gallons_Requested,
+      Delivery_Address,
+      Delivery_Date,
+      Suggested_Price,
+      Total_Amount_Due
     } = req.body;
     try {
       res.send('Forum route');

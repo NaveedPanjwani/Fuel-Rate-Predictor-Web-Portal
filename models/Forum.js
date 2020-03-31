@@ -1,28 +1,24 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  client_location: {
+  Gallons_Requested: {
+    type: Number,
+    required: true
+  },
+  Delivery_Address: {
     type: String,
     required: true
   },
-  competitors_rate: {
-    type: Integer,
+  Delivery_Date: {
+    type: Date,
     required: true
   },
-  client_history: {
-    type: Integer,
+  Suggested_Price: {
+    type: Number,
     required: true
   },
-  gallons_requested: {
-    type: Integer,
-    required: true
-  },
-  Company_profit_margin: {
-    type: Integer,
-    required: true
-  },
-  seasonal_rate_fluctuation: {
-    type: Integer,
+  Total_Amount_Due: {
+    type: Number,
     required: true
   }
 });
