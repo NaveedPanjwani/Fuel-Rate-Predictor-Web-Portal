@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const Forum = require('../../models/Forum');
+const item = require('../../models/item');
 
 //route: Post api/form,
 // description: trying to put the data in a database
@@ -12,24 +13,27 @@ const Forum = require('../../models/Forum');
 
 router.post(
   '/',
-  auth,
   [
-    check('Gallons_Requested', '').isNumeric(),
-    check('Delivery_Address', '')
-      .not()
-      .isEmpty(),
-    check('Delivery_Date', '')
-      .not()
-      .isEmpty(),
-    check('Suggested_Price', '').isNumeric(),
-    ,
-    check('Total_Amount_Due', '').isNumeric()
+    auth,
+    [
+      check('Gallons_Requested', '').isNumeric(),
+      check('Delivery_Address', '')
+        .not()
+        .isEmpty(),
+      check('Delivery_Date', '')
+        .not()
+        .isEmpty(),
+      check('Suggested_Price', '').isNumeric(),
+      ,
+      check('Total_Amount_Due', '').isNumeric()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    const user = await item.findById(req.user.id).select('-password');
     const {
       Gallons_Requested,
       Delivery_Address,
@@ -38,7 +42,7 @@ router.post(
       Total_Amount_Due
     } = req.body;
     try {
-      res.send('Forum route');
+      //res.send('Forum route');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
