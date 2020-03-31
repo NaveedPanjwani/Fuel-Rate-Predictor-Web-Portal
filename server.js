@@ -1,18 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+//const bodyParser = require('body-parser');
+const cors = require('cors');
+
+require('dotenv').config();
 
 //const items = require('./routes/api/items');
 
 const app = express();
-mongoose.Promise = global.Promise;
+const URI = process.env.ATLAS_URI;
+
 mongoose
   .connect('mongodb://localhost/FuelRate', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+    useNewUrlParer: true,
+    useCreateIndex: true
   })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,6 +34,9 @@ app.use(express.json({ extended: false }));
 app.get('/', (request, response) => {
   response.send(`Node and express server is running on port ${PORT}`);
 });
+
+app.use(cors());
+app.use(express.json());
 //Defining the routes
 
 app.use('/api/forum', require('./routes/api/forum'));
