@@ -1,6 +1,6 @@
 import React from 'react';
 import AppNavbar from './components/AppNavbar';
-import Login from './components/auth/Login';
+//import Login from './components/auth/Login';
 
 
 import {Provider} from 'react-redux';
@@ -9,7 +9,7 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-//import FormQuote from './components/FormQuote'
+import FormQuote from './components/FormQuote'
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
     <Provider store= {store}>
     <div className="App">
         <AppNavbar />
-        <Login />
+        <FormQuote />
     </div>
     </Provider>
   );
