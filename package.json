@@ -5,7 +5,6 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest",
     "server": "nodemon server"
   },
   "repository": {
