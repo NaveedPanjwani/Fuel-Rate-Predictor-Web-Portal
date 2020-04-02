@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
 import Login from './components/Login';
 
@@ -7,8 +7,15 @@ import store from './store';
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
+import { loadUser } from './actions/authActions'
 
-function App() {
+class App extends Component {
+  
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+  
+  render(){
   return (
     <Provider store={store}>
     <div className="App">
@@ -17,7 +24,8 @@ function App() {
     </div>
     </Provider>
  
-  );
+    );
+  }
 }
 
 
