@@ -5,7 +5,6 @@ const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const Forum = require('../../models/Forum');
-const item = require('../../models/item');
 
 //route: Post api/form,
 // description: trying to put the data in a database
