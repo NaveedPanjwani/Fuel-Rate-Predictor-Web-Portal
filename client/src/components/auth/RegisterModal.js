@@ -32,13 +32,20 @@ class RegisterModal extends Component {
     }
 
     componentDidUpdate(pervProps){
-        const { error } = this.props;
+        const { error, isAuthenticated } = this.props;
         if(error !== pervProps.error){
             //check for register error
             if(error.id === 'REGISTER_FAIL'){
                 this.setState({msg: error.msg.msg})
             } else {
                 this.setState({msg: null});
+            }
+        }
+
+        //close modal, if authenticated
+        if(this.state.modal){
+            if(isAuthenticated){
+                this.toggle();
             }
         }
     }
@@ -53,7 +60,7 @@ class RegisterModal extends Component {
     }
 
     onChange = e => {
-
+        this.setState({[e.target.name] : e.target.value})
     }
 
     onSubmit = e => {
