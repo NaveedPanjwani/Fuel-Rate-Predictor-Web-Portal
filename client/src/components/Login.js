@@ -15,8 +15,8 @@ class Login extends Component {
             <Form className="login-form">
                 <img src={login_logo} className="login_logo" alt="logo"></img>
                 <FormGroup>
-                    <Label>Email</Label>
-                    <Input type = "email" placeholder ="Email"></Input>
+                    <Label>Username</Label>
+                    <Input type = "text" placeholder ="Username"></Input>
                 </FormGroup>
                 <FormGroup>
                     <Label>Password</Label>

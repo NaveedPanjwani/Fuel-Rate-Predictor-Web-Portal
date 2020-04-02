@@ -6,7 +6,6 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     Container 
 } from 'reactstrap';
 import RegisterModal from './auth/RegisterModal';

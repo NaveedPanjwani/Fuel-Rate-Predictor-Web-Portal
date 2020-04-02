@@ -16,7 +16,7 @@ class RegisterModal extends Component {
     state = {
         modal: false,
         name  : '',
-        email : '',
+        username: '',
         password: '',
         msg: null
     }
@@ -42,26 +42,16 @@ class RegisterModal extends Component {
                     <ModalBody>
                         <Form onSubmit= {this.onSubmit}>
                             <FormGroup>
-                                <Label for="name">Name</Label>
+
+                                <Label for="username">Username</Label>
                                 <Input 
                                     type="text"
-                                    name = "name"
-                                    id = "name"
-                                    placeholder="Name"
+                                    name = "username"
+                                    id = "username"
+                                    placeholder="Username"
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
-
-                                <Label for="email">Email</Label>
-                                <Input 
-                                    type="email"
-                                    name = "email"
-                                    id = "email"
-                                    placeholder="Email"
-                                    className = "mb-3"
-                                    onChange = {this.OnChange}
-                                />
-
 
                                 <Label for="password">Password</Label>
                                 <Input 
@@ -72,16 +62,7 @@ class RegisterModal extends Component {
                                     className = "mb-3"
                                     onChange = {this.OnChange}
                                 />
-                                
-                                <Label for="password">Confrim Password</Label>
-                                <Input 
-                                    type="password"
-                                    name = "password"
-                                    id = "password"
-                                    placeholder="Password"
-                                    className = "mb-3"
-                                    onChange = {this.OnChange}
-                                />
+                            
                                 <Button color='dark' style= {{marginTop: '2rem'}} block>
                                     Register
                                 </Button> 
