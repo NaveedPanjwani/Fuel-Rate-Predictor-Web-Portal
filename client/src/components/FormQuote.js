@@ -5,23 +5,46 @@ import {
     FormGroup,
     Label, 
     Input,
-    Col,
-    Row
 } from 'reactstrap';
-import './index.css'
 
 class FormQuote extends Component {
+
+    constructor(props){
+        super(props) 
+            this.state = {
+                gallons: 0,
+                date : '',
+                texas: false
+        }
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        const data = this.state
+        console.log("Final Data is: ", data)
+    }
+
+    onChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
+
+    // componentDidMount(){
+    //     this.setState({
+            
+    //     })
+    // }
 
     render() {
         return (
             <div>
-            <Form onSubmit= {this.onSubmit} className='Quote'>
+            <Form onSubmit= {this.onSubmit} className = 'Quote'>
                 <FormGroup>
-                    <Label for="Gallons">Gallons Requested</Label>
+                    <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
                         type='number'
                         name = 'gallons'
-                        id = 'gallons'
                         placeholder = 'Number of Gallons'
                         className = 'mb-3'
                         onChange = {this.onChange}
@@ -29,46 +52,32 @@ class FormQuote extends Component {
                     
                     <Label for= 'Date'>Delivery Date</Label>
                     <Input 
-                        type="date"
-                        name ="date"
-                        id ="date"
+                        type='date'
+                        name ='date'
                         className = "mb-3"
+                        onChange = {this.onChange}
                     />
 
-                    <Label for='Address'>Address</Label>
-                    <Input 
-                        type="text" 
-                        name="address" 
-                        id="exampleAddress" 
-                        placeholder="4800 Calhoun Rd"
-                        className = "mb-3"
-                    />
+                    {/* <legend>Are you located in the state of Texas?</legend>
+                    <FormGroup check>
+                    <Label check>
+                        <Input type="radio" name="texas" onChange = {this.onChange}/>{' '}
+                         Yes
+                    </Label>
                     </FormGroup>
-                    <Row form>
-                        <Col md={6}>
-                        <FormGroup>
-                            <Label for="exampleCity">City</Label>
-                            <Input type="text" name="city" id="exampleCity"/>
-                        </FormGroup>
-                        </Col>
-                        <Col md={4}>
-                        <FormGroup>
-                            <Label for="exampleState">State</Label>
-                            <Input type="text" name="state" id="exampleState"/>
-                        </FormGroup>
-                        </Col>
-                        <Col md={2}>
-                        <FormGroup>
-                            <Label for="exampleZip">Zip</Label>
-                            <Input type="text" name="zip" id="exampleZip"/>
-                        </FormGroup>  
-                        </Col>
-                    </Row>
-                    <Button color="primary" size="lg">Get Quote</Button>{' '}
-                    <Button color="secondary" size="lg" type='reset'>Reset</Button>
+                    <FormGroup check>
+                    <Label check>
+                        <Input type="radio" name="texas" onChange = {this.onChange} />{' '}
+                         No
+                    </Label>
+                    </FormGroup> */}
+
+                    <Button type='submit'>Submit</Button>
+
+                    </FormGroup>
             </Form>
         </div>
-        )
+        );
     }
 }
 
