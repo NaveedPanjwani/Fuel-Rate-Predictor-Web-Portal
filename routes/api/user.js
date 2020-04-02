@@ -11,8 +11,6 @@ router.route('/').get((req,res) => {
 router.route('/add').post((req, res)=>{
     newUser = new User({
         username: req.body.username,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
         password: req.body.password
     });
     newUser.save()

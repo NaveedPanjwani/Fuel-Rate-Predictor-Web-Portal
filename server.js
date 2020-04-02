@@ -19,21 +19,9 @@ mongoose
   .catch(err => console.log(err));
 
 
-
-/*const MongoClient = mongoose.MongoClient;
-const uri = "mongodb+srv://MubashirKhan:softwaredesign2020@sdcluster-o0sio.gcp.mongodb.net/test?retryWrites=true&w=majority";
-const client = mongoose.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-  
-});*/
-
-/*client.once('open', () =>{
-  console.log('mongoDB is connected');
-})*/
 app.use('/user', require('./routes/api/user'));
+app.use('/profile', require('./routes/api/profile'));
+
 
 
 app.listen(PORT, () => {

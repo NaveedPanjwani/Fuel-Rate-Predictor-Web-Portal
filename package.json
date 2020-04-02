@@ -36,7 +36,6 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "jest": "^25.2.4",
     "nodemon": "^2.0.2"
   }
 }
