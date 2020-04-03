@@ -8,14 +8,22 @@ router.route('/').get((req,res) => {
 
 });
 
-router.route('/add').post((req, res)=>{
-    newUser = new User({
-        username: req.body.username,
-        password: req.body.password
-    });
-    newUser.save()
-        .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+router.route('/add').post(async (req, res)=>{
+    const {username, password} = req.body
+    try {
+        let user = await User.findOne({username});
+
+        if(user){
+            return res.status(401).json({message: 'Username or password is taken'})
+        }
+
+        user = await User.create({
+            username, password
+        })
+        return res.status(200).json({ message: 'OK', user });
+    } catch (error) {
+        res.status(500).json({error})
+    }
 
 });
 

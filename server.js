@@ -1,14 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const mongodb = require('mongodb')
-require('dotenv').config();
+//const mongodb = require('mongodb')
+const user = require('./routes/api/user')
+const profile = require('./routes/api/profile')
+
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
-app.use(cors());
-app.use(express.json());
+app.use(cors({origin: '*'}));
+// just usin cors() should work but not sure why its not working rn
+app.use(express.json({ extended: false }));
+
+app.get('/', (req,res) => res.send('API Running'));
+
 
 const uri = "mongodb+srv://MubashirKhan:softwaredesign2020@sdcluster-o0sio.gcp.mongodb.net/test?retryWrites=true&w=majority";
 
@@ -19,11 +26,16 @@ mongoose
   .catch(err => console.log(err));
 
 
-app.use('/user', require('./routes/api/user'));
-app.use('/profile', require('./routes/api/profile'));
+  
+
+
+app.use('/api/user', user);
+app.use('/api/profile', profile);
 
 
 
-app.listen(PORT, () => {
+console.log(PORT);
+
+app.listen(PORT, () => { 
   console.log(`Your server is running on port ${PORT}`);
 });

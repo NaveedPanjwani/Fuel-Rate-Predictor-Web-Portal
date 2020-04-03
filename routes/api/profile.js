@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../../models/profile_model');
+const Profile = require('../../models/profile_model');
 
 router.route('/').get((req,res) => {
     Profile.find()
@@ -8,18 +8,23 @@ router.route('/').get((req,res) => {
 
 });
 
-router.route('/add').post((req, res)=>{
-    newProfile = new User({
-        fullname: req.body.fullname,
-        address: req.body.address,
-        address2: req.body.address2,
-        city: req.body.city,
-        state: req.body.state,
-        zipcode: req.body.zipcode
-    });
-    newProfile.save()
-        .then(() => res.json('User added!'))
-        .catch(err => res.status(400).json('Error: ' + err));
+
+router.route('/add').post(async (req, res)=>{
+    const {fullname, address, address2, city, state, zipcode} = req.body
+    try {
+        /*let user = await User.findOne({username});
+
+        if(user){
+            return res.status(401).json({message: 'Username or password is taken'})
+        }*/
+
+        profile = await Profile.create({
+            fullname, address, address2, city, state, zipcode
+        })
+        return res.status(200).json({ message: 'OK', profile });
+    } catch (error) {
+        res.status(500).json({error})
+    }
 
 });
 
