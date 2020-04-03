@@ -48,3 +48,11 @@ app.get('/', (request, response) => {
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
 });
+
+
+app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/forum', require('./routes/api/forum'));
+
+const jwt = require('jsonwebtoken');
+const auth = require('../../middleware/auth');
+const config = require('config');
