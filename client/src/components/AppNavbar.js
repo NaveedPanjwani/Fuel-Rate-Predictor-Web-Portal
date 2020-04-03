@@ -11,7 +11,6 @@ import {
 import RegisterModal from './auth/RegisterModal';
 import Profile from './Profile'
 
-
 class AppNavbar extends Component {
 
     state = {

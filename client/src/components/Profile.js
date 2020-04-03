@@ -44,26 +44,9 @@ class Profile extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        /*const { 
-            fullName,
-            addressOne,
-            addressTwo,
-            city,
-            state,
-            zip  
-        } = this.state;
-        const profile = {
-            fullName,
-            addressOne,
-            addressTwo,
-            city,
-            state,
-            zip 
-        }*/
         const newProfile = this.state
 
         console.log('Profile Data: ', newProfile);
-
 
         axios.post('http://localhost:4000/api/profile/add', newProfile)
             .then(res => console.log(res.data))
@@ -121,8 +104,7 @@ class Profile extends Component {
                                         <Input 
                                             type='select'
                                             name= 'state'
-                                            onChange = {this.onChange}  
-                                        >
+                                            onChange = {this.onChange}>
                                         <option>Select State</option>
                                         <option value="AL">AL</option>
                                         <option value="AK">AK</option>

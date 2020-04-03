@@ -1,58 +1,54 @@
-const express = require('express');
-const mongoose = require('mongoose');
-//const bodyParser = require('body-parser');
-const cors = require('cors');
-
-require('dotenv').config();
-
-//const items = require('./routes/api/items');
-
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-
-app.use(cors());
-app.use(express.json());
-const URI = process.env.ATLAS_URI;
-
-mongoose.connect(URI, {useNewUrlParer: true, useCreateIndex: true
-  });
-  const connection = mongoose.connection;
-  connection.once('open', () =>{
-    console.log("MongoDB is connected");
-  })
- 
+router.post(
+  '/',
+  [
+    //check('username', 'Please enter a number')
+    //.not()
+    //.isEmpty(),
+    check('Gallons_Requested', 'Please enter a number').isNumeric(),
+    //check('Delivery_Address', 'Please put address in Profile Management')
+    //.not()
+    //.isEmpty(),
+    check('Delivery_Date', 'Please select Date')
+      .not()
+      .isEmpty(),
+    //check('Suggested_Price', 'Leave Blank').isEmpty(),
+    //check('Total_Amount_Due', 'Leave Blank').isEmpty()
+  ],
 
 
-//app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(bodyParser.json());
 
-// use routes
-
-//app.use('/api/items', require('./routes/api/items'));
-
-// process.env.PORT is used if we deploy the website
-//else
-//Doing middleware here
-app.use(express.json({ extended: false }));
-app.get('/', (request, response) => {
-  response.send(`Node and express server is running on port ${PORT}`);
-});
-
-
-//Defining the routes
-
-//app.use('/api/forum', require('./routes/api/forum'));
-//app.use('/api/history', require('./routes/api/history'));
-
-app.listen(PORT, () => {
-  console.log(`Your server is running on port ${PORT}`);
-});
-
-
-app.use('/api/auth', require('./routes/api/auth'));
-app.use('/api/forum', require('./routes/api/forum'));
-
-const jwt = require('jsonwebtoken');
-const auth = require('../../middleware/auth');
-const config = require('config');
+async (req, res) => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      /*const user = await User.findOne({ user: req.username });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ msg: 'There is no profile for this user' });
+      }
+      */
+      let { Gallons_Requested, Delivery_Date } = req.body;
+      const username = req.user.username;
+      /*
+      if (!isNaN(Gallons_Requested)) {
+        return res.status(400).json({ msg: 'Not a Number' });
+      }
+      if (!isValidDate(Delivery_Date)) {
+        return res.status(400).json({ msg: 'Not a Date' });
+      }
+      */
+      //const profile = await Profile.find({ req.user.name });
+      //const Delivery_Address = profile.address;
+      // Will implement Suggested Price later
+      // Will implement Total amount Due later
+      const user = req.user;
+      res.json(user);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+    //console.log(req.body);
+  }

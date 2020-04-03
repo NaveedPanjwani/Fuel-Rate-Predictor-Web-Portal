@@ -4,8 +4,10 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 //const mongodb = require('mongodb')
-const user = require('./routes/api/user')
-const profile = require('./routes/api/profile')
+const user = require('./routes/api/user');
+const profile = require('./routes/api/profile');
+const auth = require('./routes/api/auth');
+const forum = require('./routes/api/forum')
 
 require('dotenv').config();
 
@@ -38,7 +40,8 @@ mongoose
 app.use('/api/user', user);
 app.use('/api/profile', profile);
 
-app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/auth', auth);
+app.use('/api/forum', forum)
 
 
 console.log(PORT);

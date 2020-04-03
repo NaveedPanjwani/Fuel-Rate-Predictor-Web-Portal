@@ -6,28 +6,33 @@ import {
     Label, 
     Input,
 } from 'reactstrap';
-
+import axios from 'axios'
 class FormQuote extends Component {
 
     constructor(props){
         super(props) 
             this.state = {
                 gallons: 0,
+                deliveryAdress: '1234 main st',
                 date : '',
-                texas: false
+                suggested: 0,
+                total: 0
         }
-    }
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        const data = this.state
-        console.log("Final Data is: ", data)
     }
 
     onChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value
         })
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        const data = this.state
+        console.log("Final Data is: ", data)
+
+        axios.post('http://localhost:4000/api/forum/me', data)
+        .then(res => console.log(res.data))
     }
 
     // componentDidMount(){
@@ -39,7 +44,7 @@ class FormQuote extends Component {
     render() {
         return (
             <div>
-            <Form onSubmit= {this.onSubmit} className = 'Quote'>
+            <Form onSubmit= {this.onSubmit}>
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
@@ -52,27 +57,13 @@ class FormQuote extends Component {
                     
                     <Label for= 'Date'>Delivery Date</Label>
                     <Input 
-                        type='date'
-                        name ='date'
-                        className = "mb-3"
+                        type = 'date'
+                        name = 'date'
+                        className = 'mb-3'
                         onChange = {this.onChange}
                     />
 
-                    {/* <legend>Are you located in the state of Texas?</legend>
-                    <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="texas" onChange = {this.onChange}/>{' '}
-                         Yes
-                    </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                    <Label check>
-                        <Input type="radio" name="texas" onChange = {this.onChange} />{' '}
-                         No
-                    </Label>
-                    </FormGroup> */}
-
-                    <Button type='submit'>Submit</Button>
+                    <Button type='submit' class = 'mb-3'>Submit</Button>
 
                     </FormGroup>
             </Form>

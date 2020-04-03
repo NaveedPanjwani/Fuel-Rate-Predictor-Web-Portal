@@ -4,11 +4,15 @@ const config = require('config');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require("express-validator");
 
-router.route('/').get((req, res) => {
-  User.find()
-    .then(users => res.json(users))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+router.route('/').get(async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    res.send(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }  
+  });
 
 router.route('/add').post(
   [

@@ -71,20 +71,10 @@ class RegisterModal extends Component {
     onSubmit = e => {
         e.preventDefault();
 
-        const newUser = this.state
-        console.log("Final Data is: ", newUser)
+        const newUser = this.state;
 
-        // const newUser ={
-        //     username: this.state.username,
-        //    password: this.state.password
-            
-        // };
-        /*const user{ username, password } = this.state;
-        //create user obj
-        const newUser = {
-           username, 
-           password
-        }*/
+        console.log("New user" , newUser)
+
         axios.post('http://localhost:4000/api/user/add', newUser)
             .then(res => console.log(res.data))
         

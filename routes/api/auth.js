@@ -27,27 +27,26 @@ router.get('/', auth, async (req, res) => {
 router.post(
   '/',
   [
-    check('username', 'Please include valid email')
-      .not()
-      .isEmpty(),
+    check('username', 'Please include valid email').isLength({ min: 7}),
     check('password', 'Please enter real password')
-      .not()
-      .isEmpty()
+    .not()
+    .isEmpty()
   ],
   async (req, res) => {
+    const errors = validationResult(req);
+      if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+      }
+
     const { username, password } = req.body;
     try {
       let user = await User.findOne({ username });
       if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Username not in the System' }] });
+        return res.status(400).json({ errors: [{ msg: 'Username not in the System' }] });
       }
       const isMatch = await password.localeCompare(user.password);
       if (isMatch != 0) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Password is not correct' }] });
+        return res.status(402).json({ errors: [{ msg: 'Password is not correct' }] });
       }
       const payload = {
         user: {
@@ -61,8 +60,7 @@ router.post(
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error');
-    }
   }
-);
+  });
 
 module.exports = router;

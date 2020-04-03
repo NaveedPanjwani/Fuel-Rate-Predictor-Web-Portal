@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
-import Login from './components/Login';
+import Login from './components/auth/Login';
 import FormQuote from './components/FormQuote'
 
 import {Provider} from 'react-redux';
@@ -9,7 +9,6 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { loadUser } from './actions/authActions';
-// import axios from 'axios';
 
 class App extends Component {
   
@@ -22,7 +21,7 @@ class App extends Component {
     <Provider store={store}>
     <div className="App">
         <AppNavbar />
-        <Login />
+        <FormQuote />
     </div>
     </Provider>
  
