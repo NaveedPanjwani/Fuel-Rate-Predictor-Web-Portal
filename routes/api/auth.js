@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const User = require('../../models/User');
+const User = require('../../models/user_model');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator/check');
@@ -11,13 +11,14 @@ const { check, validationResult } = require('express-validator/check');
 // access: public:
 
 router.get('/', auth, async (req, res) => {
-    try{
-        const user = await User.findById(req.user.id).select('-password');
-        res.json(user);
-    }catch(err){
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
+  try {
+    const { username, password } = req.body;
+    let user = await User.findOne({ username });
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
 //route: POST api/auth,
@@ -25,27 +26,42 @@ router.get('/', auth, async (req, res) => {
 // description:Authenticate user and get token
 // access: public:
 
-
-router.post('/', 
-    [
-        check('email','Please include valid email').isEmail(),
-        check(
-            'password',
-            'Please enter real password'
-        )
-    ],
-    async (req, res) => {
-    const payload = {
-      user: {
-        //not finished, I need you muba to replace "email_address"
-        //with an actual variable that points to the email, since thats our primary key
-        id: email_address
+router.post(
+  '/',
+  //auth,
+  [
+    check('username', 'Please include valid email').exists(),
+    check('password', 'Please enter real password').exists()
+  ],
+  async (req, res) => {
+    const { username, password } = req.body;
+    try {
+      let user = await User.findOne({ username });
+      if (!user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Username not in the System' }] });
       }
-    };
-    jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    });
-  });
+      const isMatch = await password.localeCompare(user.password);
+      if (isMatch != 0) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Password is not correct' }] });
+      }
+      const payload = {
+        user: {
+          id: username
+        }
+      };
+      jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      });
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;

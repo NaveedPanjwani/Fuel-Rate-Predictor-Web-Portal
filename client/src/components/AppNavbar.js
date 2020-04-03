@@ -32,7 +32,7 @@ class AppNavbar extends Component {
                     <Collapse isOpen = {this.state.isOpen} navbar>
                         <Nav className="ml-auto" navbar>
                             <NavItem>
-                               <Profile />
+                               <RegisterModal />
                             </NavItem>
                         </Nav>
                     </Collapse>
