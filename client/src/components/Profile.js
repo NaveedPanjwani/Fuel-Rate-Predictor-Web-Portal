@@ -52,6 +52,7 @@ class Profile extends Component {
             state,
             zip  
         } = this.state;
+
         const profile = {
             fullName,
             addressOne,
