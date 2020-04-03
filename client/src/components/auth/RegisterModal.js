@@ -15,66 +15,85 @@ import {
     NavLink,
     Alert
 } from 'reactstrap';
+import axios from 'axios'
 
 class RegisterModal extends Component {
-    state = {
-        modal: false,
-        username: '',
-        password: '',
-        msg: null
-    }
-
-    static ProptTypes = {
-        isAuthenticated: ProptTypes.bool,
-        error: ProptTypes.object.isRequired,
-        register: ProptTypes.func.isRequired,
-        clearErrors : ProptTypes.func.isRequired
-    }
-
-    componentDidUpdate(pervProps){
-        const { error, isAuthenticated } = this.props;
-        if(error !== pervProps.error){
-            //check for register error
-            if(error.id === 'REGISTER_FAIL'){
-                this.setState({msg: error.msg.msg})
-            } else {
-                this.setState({msg: null});
-            }
-        }
-
-        //close modal, if authenticated
-        if(this.state.modal){
-            if(isAuthenticated){
-                this.toggle();
-            }
+ 
+    constructor(props){
+        super(props) 
+            this.state = {
+                username: '',
+                password : ''
         }
     }
+
+    // static ProptTypes = {
+    //     isAuthenticated: ProptTypes.bool,
+    //     error: ProptTypes.object.isRequired,
+    //     register: ProptTypes.func.isRequired,
+    //     clearErrors : ProptTypes.func.isRequired
+    // }
+
+    // componentDidUpdate(pervProps){
+    //     const { error, isAuthenticated } = this.props;
+    //     if(error !== pervProps.error){
+    //         //check for register error
+    //         if(error.id === 'REGISTER_FAIL'){
+    //             this.setState({msg: error.msg.msg})
+    //         } else {
+    //             this.setState({msg: null});
+    //         }
+    //     }
+
+    //     //close modal, if authenticated
+    //     if(this.state.modal){
+    //         if(isAuthenticated){
+    //             this.toggle();
+    //         }
+    //     }
+    // }
 
 
     toggle = () => {
         //clear errors
-        this.props.clearErrors();
+        //this.props.clearErrors();
         this.setState( {
             modal: !this.state.modal
         });
     }
 
     onChange = e => {
-        this.setState({[e.target.name] : e.target.value})
+        this.setState({
+            [e.target.name] : e.target.value
+        })
     }
 
     onSubmit = e => {
         e.preventDefault();
 
-        const { username, password } = this.state;
+        const newUser = this.state
+        console.log("Final Data is: ", newUser)
 
+        // const newUser ={
+        //     username: this.state.username,
+        //    password: this.state.password
+            
+        // };
+        /*const user{ username, password } = this.state;
         //create user obj
         const newUser = {
-            username,
-            password
-        }
+           username, 
+           password
+        }*/
+        axios.post('http://localhost:4000/api/user/add', newUser)
+            .then(res => console.log(res.data))
+        
+        this.setState({
+            username: '',
+            password: ''
+        })
 
-        this.props.register(newUser);
+        //this.props.register(newUser);
     }
     
     render(){
@@ -90,28 +109,27 @@ class RegisterModal extends Component {
                     ) : null}
                         <Form onSubmit= {this.onSubmit}>
                             <FormGroup>
-
                                 <Label for="username">Username</Label>
                                 <Input 
-                                    type="text"
+                                    type = "text"
                                     name = "username"
-                                    id = "username"
                                     placeholder="Username"
                                     className = "mb-3"
-                                    onChange = {this.OnChange}
+                                    value = {this.state.username}
+                                    onChange = {this.onChange}
                                 />
 
                                 <Label for="password">Password</Label>
                                 <Input 
                                     type="password"
                                     name = "password"
-                                    id = "password"
                                     placeholder="Password"
                                     className = "mb-3"
-                                    onChange = {this.OnChange}
+                                    value = {this.state.password}
+                                    onChange = {this.onChange}
                                 />
                             
-                                <Button color='dark' style= {{marginTop: '2rem'}} block>
+                                <Button type='submit' color='dark' style= {{marginTop: '2rem'}} block>
                                     Register
                                 </Button> 
                             </FormGroup>

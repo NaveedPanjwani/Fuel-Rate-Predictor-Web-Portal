@@ -35,6 +35,10 @@
     "request": "^2.88.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "chai": "^4.2.0",
+    "faker": "^4.1.0",
+    "mocha": "^7.1.1",
+    "nodemon": "^2.0.2",
+    "sinon": "^9.0.1"
   }
 }
