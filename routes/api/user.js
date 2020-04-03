@@ -2,13 +2,27 @@ const router = require('express').Router();
 const User = require('../../models/user_model');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const { check, validationResult } = require("express-validator");
+
 router.route('/').get((req, res) => {
   User.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/add').post(async (req, res)=>{
+router.route('/add').post(
+  [
+    check('username', 'user is required and must bt 7 or more characters').isLength({ min: 7}),
+    check('password', 'Please enter a password with 7 or more characters').isLength({ min: 7})
+    
+  ],
+  async (req, res)=>{
+
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+      return res.status(400).json({errors: errors.array()})
+    }
+
     const {username, password} = req.body
     try {
         let user = await User.findOne({username});

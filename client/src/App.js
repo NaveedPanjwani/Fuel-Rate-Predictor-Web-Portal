@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
 import Login from './components/Login';
+import FormQuote from './components/FormQuote'
 
 import {Provider} from 'react-redux';
 import store from './store';
