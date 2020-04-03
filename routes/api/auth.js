@@ -4,17 +4,15 @@ const auth = require('../../middleware/auth');
 const User = require('../../models/user_model');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
 //route: GET api/auth,
 // description:Test Route
-// access: public:
+// access: private: need token
 
 router.get('/', auth, async (req, res) => {
   try {
-    const { username, password } = req.body;
-    let user = await User.findOne({ username });
-    res.json(user);
+    res.send('hello');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -28,10 +26,13 @@ router.get('/', auth, async (req, res) => {
 
 router.post(
   '/',
-  //auth,
   [
-    check('username', 'Please include valid email').exists(),
-    check('password', 'Please enter real password').exists()
+    check('username', 'Please include valid email')
+      .not()
+      .isEmpty(),
+    check('password', 'Please enter real password')
+      .not()
+      .isEmpty()
   ],
   async (req, res) => {
     const { username, password } = req.body;

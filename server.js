@@ -25,6 +25,7 @@ mongoose
 app.use('/user', require('./routes/api/user'));
 app.use('/profile', require('./routes/api/profile'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/forum', require('./routes/api/forum'));
 
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
