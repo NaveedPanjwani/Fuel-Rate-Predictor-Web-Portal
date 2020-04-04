@@ -1,59 +1,66 @@
-const router = require('express').Router();
-const User = require('../../models/profile_model');
-const jwt = require('jsonwebtoken');
+const express = require('express');
+const router = express.Router();
 const auth = require('../../middleware/auth');
+const User = require('../../models/user_model');
+const jwt = require('jsonwebtoken');
 const config = require('config');
-const Profile = require('../../models/profile_model');
 const { check, validationResult } = require('express-validator');
 
-router.route('/').get((req, res) => {
-  auth,
-    Profile.find()
-      .then(profile => res.json(profile))
-      .catch(err => res.status(400).json('Error: ' + err));
+//route: GET api/auth,
+// description:Test Route
+// access: private: need token
+
+router.get('/', auth, async (req, res) => {
+  try {
+    res.send('hello');
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
 });
 
-router.route('/add').post(
+//route: POST api/auth,
+// easy description: login in someone
+// description:Authenticate user and get token
+// access: public:
+
+router.post(
+  '/',
   [
-    check('fullname', '').isLength({ min: 5, max: 50 }),
-    check('address', '').isLength({ min: 7, max: 100 }),
-    check('address2', '').isLength({ max: 100 }),
-    check('city', '')
-      .not()
-      .isEmpty(),
-    check('state', '')
-      .not()
-      .isEmpty(),
-    check('zipcode', '')
-      .isNumeric()
-      .isLength({ min: 5, max: 9 })
+    check('username', 'Please include valid email').isLength({ min: 7}),
+    check('password', 'Please enter real password')
+    .not()
+    .isEmpty()
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-    const { fullname, address, address2, city, state, zipcode } = req.body;
+      if(!errors.isEmpty()){
+        return res.status(400).json({errors: errors.array()})
+      }
+
+    const { username, password } = req.body;
     try {
-      /*let user = await User.findOne({username});
-
-        if(user){
-            return res.status(401).json({message: 'Username or password is taken'})
-        }*/
-
-      profile = await Profile.create({
-        fullname,
-        address,
-        address2,
-        city,
-        state,
-        zipcode
+      let user = await User.findOne({ username });
+      if (!user) {
+        return res.status(400).json({ errors: [{ msg: 'Username not in the System' }] });
+      }
+      const isMatch = await password.localeCompare(user.password);
+      if (isMatch != 0) {
+        return res.status(402).json({ errors: [{ msg: 'Password is not correct' }] });
+      }
+      const payload = {
+        user: {
+          id: username
+        }
+      };
+      jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
+        if (err) throw err;
+        res.json({ token });
       });
-      return res.status(200).json({ message: 'OK', profile });
-    } catch (error) {
-      res.status(500).json({ error });
-    }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server error');
   }
-);
+  });
 
 module.exports = router;
