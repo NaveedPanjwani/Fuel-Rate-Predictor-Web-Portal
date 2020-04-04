@@ -1,5 +1,6 @@
 router.post(
-  '/',
+  '/me',
+  auth,
   [
     //check('username', 'Please enter a number')
     //.not()
