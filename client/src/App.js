@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
 import Login from './components/auth/Login';
-import FormQuote from './components/FormQuote'
+import FormQuote from './components/FormQuote';
+import History from './components/History';
 
 import {Provider} from 'react-redux';
 import store from './store';
@@ -21,7 +22,7 @@ class App extends Component {
     <Provider store={store}>
     <div className="App">
         <AppNavbar />
-        <FormQuote />
+        <History />
     </div>
     </Provider>
  
