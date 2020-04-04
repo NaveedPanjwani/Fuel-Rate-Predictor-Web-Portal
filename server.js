@@ -16,9 +16,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors({ origin: '*' }));
 // just usin cors() should work but not sure why its not working rn
-app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.send('API Running'));
 
 const uri =
   'mongodb+srv://MubashirKhan:softwaredesign2020@sdcluster-o0sio.gcp.mongodb.net/test?retryWrites=true&w=majority';
@@ -30,7 +28,7 @@ mongoose
     useCreateIndex: true,
   })
   .then(() => console.log('Mongodb connected'))
-  .catch((err) => console.log(err));
+  .catch(err => console.log(err));
 
 app.use('/api/user', user);
 app.use('/api/profile', profile);
@@ -38,9 +36,12 @@ app.use('/api/profile', profile);
 app.use('/api/auth', auth);
 app.use('/api/forum', forum);
 
+
+
 console.log(PORT);
 
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
 });
 module.exports = app;
+
