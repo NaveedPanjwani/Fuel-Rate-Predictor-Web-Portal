@@ -7,6 +7,9 @@ import {
     Input,
 } from 'reactstrap';
 import axios from 'axios'
+import '../App.css';
+
+
 class FormQuote extends Component {
 
     constructor(props){
@@ -44,7 +47,7 @@ class FormQuote extends Component {
     render() {
         return (
             <div>
-            <Form onSubmit= {this.onSubmit}>
+            <Form onSubmit= {this.onSubmit} className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 

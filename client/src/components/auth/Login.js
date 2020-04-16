@@ -1,6 +1,9 @@
-import React, { Component } from 'react';
-import login_logo from '../login_logo.svg';
-import '../Login.css';
+import React, {useState, useContext} from 'react';
+import AuthService from '../../Services/AuthService';
+import Message from '../../components/Message';
+import {AuthContext} from '../../context/AuthContext';
+import logo from '../../img/logo.svg'
+import '../../App.css'
 import {
     Button, 
     Form, 
@@ -8,38 +11,37 @@ import {
     Label,
     Input
 } from 'reactstrap';
-import axios from 'axios';
 
-class Login extends Component {
+const Login = props => {
+    const [user, setUser] = useState({username: "",password: ""});
+    const [message, setMessage] = useState(null);
+    const authContext = useContext(AuthContext);
 
-    constructor(props){
-        super(props)
-            this.state = {
-                username :'',
-                password : ''
-            }
+    const onChange = e => {
+        e.preventDefault();
+        setUser({...user,[e.target.name]: e.target.value})
+        console.log(user);
     }
-
-    onChange = e => {
-        this.setState({
-        [e.target.name] : e.target.value
+    
+    const onSubmit = e => {
+        e.preventDefault();
+        AuthService.login(user).then(data =>{
+            console.log(data);
+            const {isAuthenticated,user,message} = data;
+            if(isAuthenticated){
+                authContext.setUser(user);
+                authContext.setIsAuthenticated(isAuthenticated);
+                props.history.push('/profile')
+            }
+            else
+                setMessage(message);
         })
     }
-
-    onSubmit = e => {
-        e.preventDefault();
-
-        const loginData = this.state
-        console.log("Login Data: ", loginData)
-
-        axios.post('http://localhost:4000/api/auth', loginData)
-            .then(res => console.log(res.data))
-    }
-
-    render(){
-        return (
-            <Form onSubmit ={this.onSubmit} className="login-form" >
-                <img src={login_logo} className="login_logo" alt="logo" />
+     
+    return(
+        <div>
+            <Form onSubmit ={onSubmit} className="login-form" >
+                <img src={logo} className="logo" alt="logo" />
                 <FormGroup>
                     <Label>Username</Label>
                     <Input 
@@ -47,7 +49,7 @@ class Login extends Component {
                         name = "username"
                         placeholder ="Username"
                         className = "mb-3"
-                        onChange = {this.onChange}>
+                        onChange = {onChange}>
                     </Input>
                     <Label>Password</Label>
                     <Input 
@@ -55,13 +57,15 @@ class Login extends Component {
                         name = "password"
                         placeholder ="Password"
                         className= "mb-3"
-                        onChange = {this.onChange}>
+                        onChange = {onChange}>
                     </Input>
                     <Button className = "btn-lg btn-dark btn-block mb-3">Login</Button>
                 </FormGroup>
             </Form>
-        );
-    }
+            {message ? <Message message ={message} /> : null}
+        </div>
+    )
+
 }
 
 export default Login;

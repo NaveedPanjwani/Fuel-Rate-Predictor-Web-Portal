@@ -1,0 +1,36 @@
+.login-form {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+
+.quoteForm {
+    width: 100%;
+    max-width: 900px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+
+.profile {
+    width: 100%;
+    max-width: 900px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+
+.logo{
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    height: 100%;
+}
+
+.other-links{
+    text-align: center;
+    padding: 15px;
+}

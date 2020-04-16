@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import {
     Button,
-    Modal,
-    ModalHeader,
-    ModalBody,
     Form, 
     FormGroup,
     Label, 
     Input,
-    NavLink,
     Row, 
     Col
 } from 'reactstrap';
 import axios from 'axios';
+import '../App.css';
 
 class Profile extends Component {
 
@@ -55,12 +52,7 @@ class Profile extends Component {
     render() {
         return (
             <div>
-               <NavLink onClick = {this.toggle} href = '#'>Profile Management</NavLink>
-
-               <Modal isOpen = {this.state.modal}>
-                   <ModalHeader toggle = {this.toggle}>Manage Your Profile</ModalHeader>
-                   <ModalBody>
-                       <Form onSubmit = {this.onSubmit}>
+                       <Form onSubmit = {this.onSubmit} className="profile" > 
                            <FormGroup>
                                <Label for = "fullname">Full Name</Label>
                                <Input
@@ -175,8 +167,6 @@ class Profile extends Component {
                                <Button color = "success" block>Submit</Button>
                            </FormGroup>
                        </Form>
-                   </ModalBody>
-               </Modal>
             </div>
         );
     }

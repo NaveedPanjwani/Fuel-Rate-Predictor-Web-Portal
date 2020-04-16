@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 //const mongodb = require('mongodb')
 const user = require('./routes/api/user');
@@ -17,6 +18,8 @@ const PORT = process.env.PORT || 4000;
 app.use(cors({origin: '*'}));
 // just usin cors() should work but not sure why its not working rn
 app.use(express.json({ extended: false }));
+app.use(cookieParser());
+
 
 app.get('/', (req,res) => res.send('API Running'));
 

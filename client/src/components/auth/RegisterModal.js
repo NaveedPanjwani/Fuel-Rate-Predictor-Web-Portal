@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ProptTypes from 'prop-types';
-import { register } from '../../actions/authActions';
-import { clearErrors } from '../../actions/errorActions'
+import React, { useState, useRef,useEffect } from 'react';
+import AuthService from '../../Services/AuthService';
+import Message from '../Message';
+
 import {
     Button,
     Modal,
@@ -13,91 +12,58 @@ import {
     Label, 
     Input,
     NavLink,
-    Alert
 } from 'reactstrap';
-import axios from 'axios'
 
-class RegisterModal extends Component {
- 
-    constructor(props){
-        super(props) 
-            this.state = {
-                username: '',
-                password : ''
+const RegisterModal = (props) => {
+
+    const [user,setUser] = useState({username: "", password : ""});
+    const [message,setMessage] = useState(null);
+    let timerID = useRef(null);
+
+    useEffect(()=>{
+        return ()=>{
+            clearTimeout(timerID);
         }
+    },[]);
+
+    const [modal, setModal] = useState(false);
+
+    const toggle = () => setModal(!modal);
+
+    const onChange = e => {
+        setUser({...user,[e.target.name] : e.target.value})
     }
 
-    // static ProptTypes = {
-    //     isAuthenticated: ProptTypes.bool,
-    //     error: ProptTypes.object.isRequired,
-    //     register: ProptTypes.func.isRequired,
-    //     clearErrors : ProptTypes.func.isRequired
-    // }
-
-    // componentDidUpdate(pervProps){
-    //     const { error, isAuthenticated } = this.props;
-    //     if(error !== pervProps.error){
-    //         //check for register error
-    //         if(error.id === 'REGISTER_FAIL'){
-    //             this.setState({msg: error.msg.msg})
-    //         } else {
-    //             this.setState({msg: null});
-    //         }
-    //     }
-
-    //     //close modal, if authenticated
-    //     if(this.state.modal){
-    //         if(isAuthenticated){
-    //             this.toggle();
-    //         }
-    //     }
-    // }
-
-
-    toggle = () => {
-        //clear errors
-        //this.props.clearErrors();
-        this.setState( {
-            modal: !this.state.modal
-        });
-    }
-
-    onChange = e => {
-        this.setState({
-            [e.target.name] : e.target.value
-        })
-    }
-
-    onSubmit = e => {
-        e.preventDefault();
-
-        const newUser = this.state;
-
-        console.log("New user" , newUser)
-
-        axios.post('http://localhost:4000/api/user/add', newUser)
-            .then(res => console.log(res.data))
-        
-        this.setState({
-            username: '',
-            password: ''
-        })
-
-        //this.props.register(newUser);
+    const resetForm = ()=>{
+        setUser({username : "", password : ""});
     }
     
-    render(){
+    const onSubmit = e =>{
+        e.preventDefault();
+        AuthService.register(user).then(data=>{
+            const { message } = data;
+            setMessage(message);
+            resetForm();
+            if(!message.msgError){
+                timerID = setTimeout(()=>{
+                    //If no error, then close the modal
+                    if(modal){
+                        toggle();
+                    }    
+                },1000)
+            }
+        })
+    }
+
+
         return (
             <div>
-               <NavLink onClick={this.toggle} href ="#">Register</NavLink>
+               <NavLink onClick={toggle}>Register</NavLink>
 
-                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle ={this.toggle}>Register</ModalHeader>
+                <Modal isOpen={modal} toggle={toggle}>
+                    <ModalHeader toggle ={toggle}>Register</ModalHeader>
                     <ModalBody>
-                    { this.state.msg ? (
-                    <Alert color='danger'>{this.state.msg}</Alert>
-                    ) : null}
-                        <Form onSubmit= {this.onSubmit}>
+                        <Form onSubmit= {onSubmit}>
                             <FormGroup>
                                 <Label for="username">Username</Label>
                                 <Input 
@@ -105,8 +71,8 @@ class RegisterModal extends Component {
                                     name = "username"
                                     placeholder="Username"
                                     className = "mb-3"
-                                    value = {this.state.username}
-                                    onChange = {this.onChange}
+                                    value={user.username}
+                                    onChange = {onChange}
                                 />
 
                                 <Label for="password">Password</Label>
@@ -115,8 +81,8 @@ class RegisterModal extends Component {
                                     name = "password"
                                     placeholder="Password"
                                     className = "mb-3"
-                                    value = {this.state.password}
-                                    onChange = {this.onChange}
+                                    value={user.password} 
+                                    onChange = {onChange}
                                 />
                             
                                 <Button type='submit' color='dark' style= {{marginTop: '2rem'}} block>
@@ -124,20 +90,11 @@ class RegisterModal extends Component {
                                 </Button> 
                             </FormGroup>
                         </Form>
+                        {message ? <Message message={message}/> : null}
                     </ModalBody>
                 </Modal>
             </div>
         );
-    }
-
 }
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
-})
-
-export default connect(
-    mapStateToProps,
-    { register, clearErrors }
-)(RegisterModal);
+export default RegisterModal;
