@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
-  timestamp: { type: Number, required: true, default: Date.now },
+  //timestamp: { type: Number, default: Date.now },
   gallons: { type: Number, required: true },
   deliveryAddress: { type: String, required: true, default: false },
   date: { type: String, required: true },
