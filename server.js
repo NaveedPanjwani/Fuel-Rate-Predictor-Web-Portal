@@ -9,6 +9,7 @@ const user = require('./routes/api/user');
 const profile = require('./routes/api/profile');
 const auth = require('./routes/api/auth');
 const forum = require('./routes/api/forum');
+const history = require('./routes/api/history');
 
 require('dotenv').config();
 
@@ -39,6 +40,7 @@ app.use('/api/profile', profile);
 
 app.use('/api/auth', auth);
 app.use('/api/forum', forum);
+app.use('/api/history', history);
 
 console.log(PORT);
 
