@@ -7,7 +7,6 @@ const { check, validationResult } = require('express-validator');
 
 const User = require('../../models/user_model');
 const Forum = require('../../models/Forum');
-const Profile = require('../../models/profile_model');
 
 //route: Post api/forum/me,
 // description: using username from token to put in info into database
@@ -19,9 +18,13 @@ router.route('/me').get(auth, async (req, res) => {
 });
 router.route('/me').post(
   [
-    //check('username', 'Please enter a number').not().isEmpty(),
+    //check('username', 'Please enter a number')
+    //.not()
+    //.isEmpty(),
     //check('Gallons_Requested', 'Please enter a number').isNumeric(),
-    //check('Delivery_Address', 'Please put address in Profile Management').not().isEmpty(),
+    //check('Delivery_Address', 'Please put address in Profile Management')
+    //.not()
+    //.isEmpty(),
     //check('Delivery_Date', 'Please select Date').not().isEmpty(),
     //check('Suggested_Price', 'Leave Blank').isEmpty(),
     //check('Total_Amount_Due', 'Leave Blank').isEmpty()
@@ -32,18 +35,13 @@ router.route('/me').post(
     if(!errors.isEmpty()){
     return res.status(400).json({errors: errors.array()})
     }*/
-    const { gallons, date } = req.body;
-    let user = await User.findOne({ username: req.user.id });
-    let userprofile = await Profile.findOne({ username: req.user.id });
     try {
       forum = await Forum.create({
-        username: user.username,
-        timestamp: datetime.now(),
-        gallons: gallons,
-        deliveryAddress: userprofile.address,
-        date: date,
-        suggested: suggested,
-        total: total,
+        gallons,
+        deliveryAddress,
+        date,
+        suggested,
+        total,
       });
       return res.status(200).json({ message: 'OK', forum });
     } catch (error) {

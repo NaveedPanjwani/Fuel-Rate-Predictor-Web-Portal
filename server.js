@@ -20,6 +20,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json({ extended: false }));
 app.use(cookieParser());
 
+
 app.get('/', (req, res) => res.send('API Running'));
 
 const uri =
