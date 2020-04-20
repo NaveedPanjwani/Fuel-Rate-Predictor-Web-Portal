@@ -28,7 +28,6 @@ router.post('/', auth, async (req, res) => {
       });
     }
     if (user) {
-      //we need to display the contents of the profile on the page.
     }
     return res.status(200).json({ message: 'OK', forum });
   } catch (err) {
