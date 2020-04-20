@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 //const Joi = require('joi');
 
 const ProfileSchema = new Schema({
-  username: { type: String, required: true },
+  //username: { type: String, required: true },
   fullname: { type: String, required: true, minlength: 5, maxlength: 50 },
   address: { type: String, required: true, minlength: 7, maxlength: 100 },
   address2: { type: String, required: false, maxlength: 100 },

@@ -34,9 +34,9 @@ const onClickLogoutHandler = ()=>{
 const unauthenticatedNavBar = () =>{
     return(
             <>     
-            <Link to= "/login">
-                <li className= "nav-item nav-link navbar-brand">Home</li>
-            </Link>
+            {/* <Link to= "/login">
+                <li className= "nav-item nav-link navbar-brand">Login</li>
+            </Link> */}
 
             <NavItem>
             <RegisterModal />
