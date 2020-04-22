@@ -16,18 +16,26 @@ const FormQuote = props => {
             address: '',
             gallons: 0,
             date: '',
-            id: ''
+            id: '',
+            suggested: 0,
+            total: 0,
         })
 
-        // const [profile, setProfile] = useState({
-        //     state : '',
-        // });
+        const [profile, setProfile] = useState({
+            state : '',
+        });
         const [message, setMessage] = useState(null);
 
         useEffect(() => {
+
+            
             ProfileService.getProfile().then(data => {
-                setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, id: data.profile._id})
-                
+                if(data.profile != null){
+                    setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, id: data.profile._id})
+                    setProfile(data.profile.state)
+                }else{
+                    console.log("ERROR: NEED A PROFILE ADDRESS")
+                }
             })
         },[]);
 
@@ -54,10 +62,63 @@ const FormQuote = props => {
         }
         
         const { address, gallons, date} = form;
+
+
+        const priceModule = e => {
+            setForm({...form, [e.target.name]:e.target.value})
+
+            if(!form.address){
+                console.log("Must have an address");
+            }
+
+            else {
+            var locationfactor;
+            var gallons = form.gallons;
+            var gallonsRate;
+            var currDate = new Date(form.date);
+            var rateFluctuation;
+            const profit = 0.1;
+            var suggested; 
+            var total;
+            var historyRate = .01;
+
+            var str = form.address;
+            if(str.includes("TX")){
+                locationfactor =.02;
+            }
+            else{
+                locationfactor =.04;
+            }
+            console.log("Current location factor: " + locationfactor);
+
+            if(gallons > 1000){
+                gallonsRate = 0.02
+            }else{
+                gallonsRate = 0.03;
+            }
+            console.log("GallonsRate: " + gallonsRate);
+
+            console.log((currDate))
+            console.log(Date('2020/05/01'))
+            if(currDate >= new Date('2020/05/01') && currDate <= new Date('2020/08/30')){
+                rateFluctuation = 0.03;
+            }else{
+                rateFluctuation = 0.04;
+            }
+            console.log("FluctuationRate: " + rateFluctuation);
+
+            suggested = 1.50 + 1.5*(locationfactor - historyRate + gallonsRate + profit+ rateFluctuation);
+            console.log("Suggested price:  " + suggested);
+            total = suggested * gallons;
+            console.log("total price:  " + total);
+
+            setForm({...form, suggested: suggested, total: total })
+            }
+        }
         
         return (
         <div>
-            <Form onSubmit = {onSubmit} className="quoteForm" >
+            <Form className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
@@ -73,8 +134,6 @@ const FormQuote = props => {
                             name="address"
                             className= "mb-3"
                             value = {address}
-                            //+", " + form.city + " " + form.state
-                            //+ ", " + form.zipcode}
                             disabled
                             onChange={onChange} />
                     
@@ -86,21 +145,23 @@ const FormQuote = props => {
                             className = 'mb-3'
                             onChange ={onChange} />
 
-                    <Button type='button' onClick = {onSubmit} className = 'mb-3' block>Get Price</Button>
+                    <Button type='button' onClick={priceModule} className = 'mb-3' block>Get Price</Button>
                     
                     <Label for = 'Suggested Price'>Suggested Price</Label>
                     <Input type="text"
                             name="suggested"
                             className= "mb-3"
+                            value = {form.suggested}
                             disabled />
 
-                    <Label for = 'Suggested Price'>Total Amount Due</Label>
+                    <Label for = 'Total'>Total Amount Due</Label>
                     <Input type="text"
                             name="total"
+                            value = {form.total}
                             className= "mb-3"
                             disabled/>
 
-                    <Button type='submit' className = 'mb-3' block>Submit Quote</Button>
+                    <Button type='submit' onClick = {onSubmit} className = 'mb-3' block>Submit Quote</Button>
                     </FormGroup>
             </Form>
         </div>

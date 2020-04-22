@@ -1,4 +1,3 @@
-
 export default{
     postForm : user => {
         console.log('USER: ', user)
