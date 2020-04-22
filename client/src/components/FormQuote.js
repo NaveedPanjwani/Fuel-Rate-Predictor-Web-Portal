@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, {useState,  useEffect} from 'react';
+import ProfileService from '../Services/ProfileService';
 import {
     Button,
     Form, 
@@ -6,73 +7,69 @@ import {
     Label, 
     Input,
 } from 'reactstrap';
-import axios from 'axios'
 import '../App.css';
 
+const FormQuote = propr => {
 
-class FormQuote extends Component {
-
-    constructor(props){
-        super(props) 
-            this.state = {
-                gallons: 0,
-                deliveryAdress: '1234 main st',
-                date : '',
-                suggested: 0,
-                total: 0
-        }
-    }
-
-    onChange = (e) => {
-        this.setState({
-            [e.target.name] : e.target.value
+        const [form, setForm] = useState({
+            address: '',
         })
-    }
+          
+        useEffect(() => {
+            ProfileService.getProfile().then(data => {
+                setForm(data.profile)
+            })
+        },[]);
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        const data = this.state
-        console.log("Final Data is: ", data)
-
-        axios.post('http://localhost:4000/api/forum/me', data)
-        .then(res => console.log(res.data))
-    }
-
-    // componentDidMount(){
-    //     this.setState({
-            
-    //     })
-    // }
-
-    render() {
         return (
-            <div>
-            <Form onSubmit= {this.onSubmit} className="quoteForm" >
+        <div>
+            <Form className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
                         type='number'
                         name = 'gallons'
                         placeholder = 'Number of Gallons'
-                        className = 'mb-3'
-                        onChange = {this.onChange}
+                        className = 'mb-3'    
+                    />
+
+                    <Label for ='address'>address</Label>
+                    <Input type="text"
+                            name="address"
+                            className= "mb-3"
+                            value = {form.address +", " + form.city + " " + form.state
+                            + ", " + form.zipcode}
+                            disabled
                     />
                     
                     <Label for= 'Date'>Delivery Date</Label>
                     <Input 
                         type = 'date'
                         name = 'date'
-                        className = 'mb-3'
-                        onChange = {this.onChange}
+                        className = 'mb-3'     
                     />
 
-                    <Button type='submit' class = 'mb-3'>Submit</Button>
+                    <Button type='submit' className = 'mb-3' block>Get Price</Button>
+                    
+                    <Label for = 'Suggested Price'>Suggested Price</Label>
+                    <Input type="text"
+                            name="suggested"
+                            className= "mb-3"
+                            disabled
+                    />
 
+                    <Label for = 'Suggested Price'>Total Amount Due</Label>
+                    <Input type="text"
+                            name="total"
+                            className= "mb-3"
+                            disabled
+                    />
+
+                    <Button type='submit' className = 'mb-3' block>Submit Quote</Button>
                     </FormGroup>
             </Form>
         </div>
-        );
-    }
+    );
 }
 
 export default FormQuote;

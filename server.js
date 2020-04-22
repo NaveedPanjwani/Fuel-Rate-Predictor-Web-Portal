@@ -42,10 +42,10 @@ app.use('/api/auth', auth);
 app.use('/api/forum', forum);
 app.use('/api/history', history);
 
-console.log(PORT);
+const port = process.env.PORT || 5000
 
-app.listen(PORT, () => {
-  console.log(`Your server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Your server is running on port ${port}`);
 });
 
 module.exports = app;

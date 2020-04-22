@@ -22,21 +22,24 @@ const Profile = props =>{
         state: '',
         zipcode: 0, 
     });
-
-    //const [profiles, setProfiles] = useState([]);
     const [message, setMessage] = useState(null);
     //const authContext = useContext(AuthContext);
 
     useEffect(() => {
-        const data = localStorage.getItem('form-input');
-        if(data){
-        setProfile(JSON.parse(data));
-        }
+        // const data = localStorage.getItem('form-input');
+        // if(data){
+        // setProfile(JSON.parse(data));
+        // }
+
+
+        // ProfileService.getProfile().then(data =>{
+        //     console.log(data.profile)
+        // })
+
     }, [])
 
-
     useEffect(()=>{
-        localStorage.setItem('form-input', JSON.stringify(profile));    
+        // localStorage.setItem('form-input', JSON.stringify(profile));    
     });
 
     const onChange = e =>{
@@ -177,7 +180,6 @@ const Profile = props =>{
                      </FormGroup>  
                      </Col>
                  </Row>
-                <Button type ="reset" block>Reset</Button>
                 <Button type="submit" color = "success"  block>Submit</Button>
             </FormGroup>
         </Form>

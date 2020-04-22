@@ -15,7 +15,7 @@ const passportConfig = require('../../passport');
 // description:Authenticate user and get token
 // access: public:
 
-// router.post('/',auth, async (req, res) => {
+// router.post('/',passport.authenticate('jwt', {session: false}), async (req, res) => {
 //   try {
 //     let user = await Profile.findOne({ username: req.user.id });
 //     if (!username) {
@@ -40,16 +40,18 @@ const passportConfig = require('../../passport');
 //   }
 // });
 
-router.post('/', passport.authenticate('jwt', {session: false}),(req,res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), async (req,res) => {
+      const {fullname,address,address2,city,state,zipcode} = req.body;
       const profile = new Profile(req.body);
+      console.log("Profile Data: " + profile)
       profile.save(err => {
         if(err)
-          res.status(500).json({message: {msgBody: "Error has occured", msgError: true}}); 
+          res.status(500).json({message: {msgBody: "Error has occurred...", msgError: true}}); 
         else{
-            req.user.profile.push(profile);
+            req.user.profile = profile;
             req.user.save(err => {
                 if(err)
-                  res.status(500).json({message: {msgBody: "Error has occured", msgError: true}});
+                  res.status(500).json({message: {msgBody: "Error has occurred", msgError: true}});
                 else
                   res.status(200).json({message:{msgBody: "Profile Success", msgError: false}}); 
             });
@@ -58,17 +60,17 @@ router.post('/', passport.authenticate('jwt', {session: false}),(req,res) => {
 });
 
 
-// router.get('/profiles', passport.authenticate('jwt', {session: false}),(req,res) => {
-//     //to populate data
-//     User.findById({_id: req.user._id}).populate('profile').exec((err,document) => {
-//       if(err)
-//          res.status(500).json({message: {msgBody: "Error has occured", msgError: true}}); 
-//       else {
-//          res.status(500).json({profile : document.profile, authenticate: true});
-//       }
+router.get('/getprofile',  passport.authenticate('jwt', {session: false}),(req,res) => {
+    //to populate data
+    User.findById({_id: req.user._id}).populate('profile').exec((err,document) => {
+      if(err)
+         res.status(500).json({message: {msgBody: "Error has occured", msgError: true}}); 
+      else {
+         res.status(500).json({profile : document.profile, authenticated: true});
+      }
       
-//     })
-// });
+    })
+});
 
 
 

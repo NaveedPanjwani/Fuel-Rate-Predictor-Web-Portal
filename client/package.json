@@ -29,6 +29,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+
   "browserslist": {
     "production": [
       ">0.2%",
@@ -41,8 +42,10 @@
       "last 1 safari version"
     ]
   },
+
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8"
   },
-  "proxy": "http://localhost:3000/"
+
+  "proxy": "http://localhost:5000/"
 }

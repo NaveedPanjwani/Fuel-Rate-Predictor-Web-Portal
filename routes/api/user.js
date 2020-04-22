@@ -58,12 +58,14 @@ router.get('/logout', passport.authenticate('jwt',{session: false}),(req,res) =>
 
 //FORM ROUTE
 
-
 //GET FORM DATA
+
+
+
 
 //State
 router.get('/authenticated',passport.authenticate('jwt',{session : false}),(req,res)=>{
-  const {username,role} = req.user;
+  const {username} = req.user;
   res.status(200).json({isAuthenticated : true, user : {username}});
 });
 
