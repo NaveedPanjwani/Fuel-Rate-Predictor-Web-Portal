@@ -17,26 +17,34 @@ const FormQuote = props => {
 
         const [form, setForm] = useState({
             address: '',
-            gallons: '',
-            deliveryDate: '',
+            gallons: 0,
+            date: '',
+            id: ''
         })
+
+        const [profile, setProfile] = useState({
+            state : '',
+        });
 
         const [message, setMessage] = useState(null);
 
           
         useEffect(() => {
             ProfileService.getProfile().then(data => {
-                setForm(data.profile)
+                setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, id: data.profile._id})
+                
             })
         },[]);
 
         const onChange = e => {
             e.preventDefault();
-            setForm({...form, [e.target.name]:[e.target.value]})
+            console.log(e.target.name, e.target.value)
+            setForm({...form, [e.target.name]:e.target.value})
         }
 
         const onSubmit = e => {
             e.preventDefault();
+            console.log('DATA: ', form)
             FormService.postForm(form).then(data => {
                 console.log(data)
                 const {message} = data;
@@ -47,22 +55,20 @@ const FormQuote = props => {
                     setMessage(message);
                 }
             })
+
             console.log(form)
         }
-
-        // const priceModule = () =>{
-            
-        // }
-
+        
+        const { address, gallons, date} = form;
         return (
         <div>
             <Form onSubmit = {onSubmit} className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
-                        type='number'
+                        type='Number'
                         name = 'gallons'
-                        value = {form.gallons}
+                        value = {gallons}
                         placeholder = 'Number of Gallons'
                         className = 'mb-3'
                         onChange = {onChange}    
@@ -72,8 +78,9 @@ const FormQuote = props => {
                     <Input type="text"
                             name="address"
                             className= "mb-3"
-                            value = {form.address +", " + form.city + " " + form.state
-                            + ", " + form.zipcode}
+                            value = {address}
+                            //+", " + form.city + " " + form.state
+                            //+ ", " + form.zipcode}
                             disabled
                             onChange={onChange}
                     />
@@ -82,7 +89,7 @@ const FormQuote = props => {
                     <Input 
                         type = 'date'
                         name = 'date'
-                        value = {form.deliveryDate}
+                        value = {date}
                         className = 'mb-3'
                         onChange ={onChange}     
                     />

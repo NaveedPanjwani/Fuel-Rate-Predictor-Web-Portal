@@ -89,19 +89,19 @@ passport.authenticate('jwt', {session: false}),
 // });
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-  const {id,fullname,address,city,state,zipcode,gallon,date} = req.body;
+  const {id,address,gallons,date} = req.body;
   const form = new Forum(req.body);
-  console.log("form Data: " + form)
+  console.log("Form Data: " + form)
   form.save(err => {
     if(err)
-      res.status(500).json({message: {msgBody: "Error has occurred...", msgError: true}}); 
+      res.status(500).json({message: {msgBody: "Error has occurred...", msgError: true, err}}); 
     else{
-        req.user.form.push(form);
+        req.user.form = form;
         req.user.save(err => {
             if(err)
-              res.status(500).json({message: {msgBody: "Error has occurred", msgError: true}});
+              res.status(500).json({message: {msgBody: "Error has occurred", msgError: true, err}});
             else
-              res.status(200).json({message:{msgBody: "Form Info Success", msgError: false}}); 
+              res.status(200).json({message:{msgBody: "Form Info Success", msgError: false, err}}); 
         });
     }
   });

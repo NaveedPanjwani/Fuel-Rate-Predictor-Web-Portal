@@ -1,6 +1,8 @@
-export default {
+
+export default{
     postForm : user => {
-        return fetch('api/forum',{
+        console.log('USER: ', user)
+        return fetch('/api/forum',{
             method: 'post',
             body: JSON.stringify(user),
             headers: {
@@ -13,6 +15,5 @@ export default {
             else
                 return {message : {msgBody: "unAuthorized "}, mgError: true}
         })
-    },
-            
+    }
 }

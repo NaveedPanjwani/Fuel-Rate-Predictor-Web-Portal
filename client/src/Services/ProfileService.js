@@ -1,6 +1,6 @@
 export default{
     postProfile : user => {
-        return fetch('api/profile',{
+        return fetch('/api/profile',{
             method: 'post',
             body: JSON.stringify(user),
             headers: {
@@ -17,7 +17,7 @@ export default{
 
 
         getProfile : () => {
-        return fetch('api/profile/getprofile')
+        return fetch('/api/profile/getprofile')
             .then(response => {
                 if(response.status !== 401){
                     return response.json().then(data=>data);
