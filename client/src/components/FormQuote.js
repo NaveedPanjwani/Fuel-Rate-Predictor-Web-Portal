@@ -1,5 +1,6 @@
 import React, {useState,  useEffect} from 'react';
 import ProfileService from '../Services/ProfileService';
+import FormService from '../Services/FormService';
 import {
     Button,
     Form, 
@@ -9,10 +10,6 @@ import {
 } from 'reactstrap';
 import '../App.css';
 //import Message from './Message';
-
-
-import FormService from '../Services/FormService';
-
 const FormQuote = props => {
 
         const [form, setForm] = useState({
@@ -22,13 +19,11 @@ const FormQuote = props => {
             id: ''
         })
 
-        const [profile, setProfile] = useState({
-            state : '',
-        });
-
+        // const [profile, setProfile] = useState({
+        //     state : '',
+        // });
         const [message, setMessage] = useState(null);
 
-          
         useEffect(() => {
             ProfileService.getProfile().then(data => {
                 setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, id: data.profile._id})
@@ -55,24 +50,23 @@ const FormQuote = props => {
                     setMessage(message);
                 }
             })
-
             console.log(form)
         }
         
         const { address, gallons, date} = form;
+        
         return (
         <div>
             <Form onSubmit = {onSubmit} className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
-                        type='Number'
-                        name = 'gallons'
-                        value = {gallons}
-                        placeholder = 'Number of Gallons'
-                        className = 'mb-3'
-                        onChange = {onChange}    
-                    />
+                            type='Number'
+                            name = 'gallons'
+                            value = {gallons}
+                            placeholder = 'Number of Gallons'
+                            className = 'mb-3'
+                            onChange = {onChange} />
 
                     <Label for ='address'>address</Label>
                     <Input type="text"
@@ -82,17 +76,15 @@ const FormQuote = props => {
                             //+", " + form.city + " " + form.state
                             //+ ", " + form.zipcode}
                             disabled
-                            onChange={onChange}
-                    />
+                            onChange={onChange} />
                     
                     <Label for= 'Date'>Delivery Date</Label>
                     <Input 
-                        type = 'date'
-                        name = 'date'
-                        value = {date}
-                        className = 'mb-3'
-                        onChange ={onChange}     
-                    />
+                            type = 'date'
+                            name = 'date'
+                            value = {date}
+                            className = 'mb-3'
+                            onChange ={onChange} />
 
                     <Button type='button' onClick = {onSubmit} className = 'mb-3' block>Get Price</Button>
                     
@@ -100,15 +92,13 @@ const FormQuote = props => {
                     <Input type="text"
                             name="suggested"
                             className= "mb-3"
-                            disabled
-                    />
+                            disabled />
 
                     <Label for = 'Suggested Price'>Total Amount Due</Label>
                     <Input type="text"
                             name="total"
                             className= "mb-3"
-                            disabled
-                    />
+                            disabled/>
 
                     <Button type='submit' className = 'mb-3' block>Submit Quote</Button>
                     </FormGroup>

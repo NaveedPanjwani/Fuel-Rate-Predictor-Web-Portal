@@ -1,8 +1,6 @@
 const router = require('express').Router();
-
 const passport = require('passport');
 const passportConfig = require('../../passport');
-
 const User = require('../../models/user_model');
 const config = require('config');
 const jwt = require('jsonwebtoken');
@@ -14,7 +12,6 @@ const signToken = userID => {
     sub : userID
   }, "SDProject", {expiresIn : "1h"});
 }
-
 
 // REGISTER ROUTE
 router.post('/register',(req, res) => {
@@ -37,7 +34,6 @@ router.post('/register',(req, res) => {
   });
 });
 
-
 //LOGIN ROUTE
 router.post('/login', passport.authenticate('local',{session: false}),(req,res) => {
     if(req.isAuthenticated()){
@@ -46,7 +42,6 @@ router.post('/login', passport.authenticate('local',{session: false}),(req,res) 
        res.cookie('access_token', token, {httpOnly: true, sameSite: true});
        res.status(200).json({isAuthenticated : true, user : {username}})
     }
-
 });
 
 //LOG OUT ROUTE
@@ -55,68 +50,10 @@ router.get('/logout', passport.authenticate('jwt',{session: false}),(req,res) =>
       res.json({ user: {username: ""},success: true})
 });
 
-
-//FORM ROUTE
-
-//GET FORM DATA
-
-
-
-
 //State
 router.get('/authenticated',passport.authenticate('jwt',{session : false}),(req,res)=>{
   const {username} = req.user;
   res.status(200).json({isAuthenticated : true, user : {username}});
 });
-
-
-// router.route('/').get(async (req, res) => {
-//   try {
-//     const users = await User.find().select('-password');
-//     res.send(users);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }  
-//   });
-
-// router.route('/add').post(
-//   [
-//     check('username', 'user is required and must bt 7 or more characters').isLength({ min: 7}),
-//     check('password', 'Please enter a password with 7 or more characters').isLength({ min: 7})
-    
-//   ],
-//   async (req, res)=>{
-
-//     const errors = validationResult(req);
-//     if(!errors.isEmpty()){
-//       return res.status(400).json({errors: errors.array()})
-//     }
-
-//     const {username, password} = req.body
-//     try {
-//         let user = await User.findOne({username});
-
-//         if(user){
-//             return res.status(401).json({message: 'Username or password is taken'})
-//         }
-
-//         user = await User.create({
-//             username, password
-//         })
-//         return res.status(200).json({ message: 'OK', user });
-//     } catch (error) {
-//         res.status(500).json({error})
-//     }
-//     const payload = {
-//       user: {
-//         id: user.username
-//       }
-//     };
-//     jwt.sign(payload, config.get('jwtSecret'), (err, token) => {
-//       if (err) throw err;
-//       res.json({ token });
-//     });
-// });
 
 module.exports = router;

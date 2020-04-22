@@ -4,18 +4,14 @@ const jwt = require('jsonwebtoken');
 const auth = require('../../middleware/auth');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-
 const User = require('../../models/user_model');
 const Forum = require('../../models/Forum');
 const Profile = require('../../models/profile_model');
-
 const passport = require('passport');
 
 //route: Post api/forum/me,
 // description: using username from token to put in info into database
 // access: private: need web token
-passport.authenticate('jwt', {session: false}),
-
 // router.route('/').post(passport.authenticate('jwt', {session: false}), async (req, res) => {
 //   const { gallons, date } = req.body;
 //   let user = await User.findOne({ username: req.user.id });
@@ -106,7 +102,5 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req,res)
     }
   });
 });
-
-
 
 module.exports = router;
