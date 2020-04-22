@@ -8,12 +8,21 @@ import {
     Input,
 } from 'reactstrap';
 import '../App.css';
+//import Message from './Message';
 
-const FormQuote = propr => {
+
+import FormService from '../Services/FormService';
+
+const FormQuote = props => {
 
         const [form, setForm] = useState({
             address: '',
+            gallons: '',
+            deliveryDate: '',
         })
+
+        const [message, setMessage] = useState(null);
+
           
         useEffect(() => {
             ProfileService.getProfile().then(data => {
@@ -21,16 +30,42 @@ const FormQuote = propr => {
             })
         },[]);
 
+        const onChange = e => {
+            e.preventDefault();
+            setForm({...form, [e.target.name]:[e.target.value]})
+        }
+
+        const onSubmit = e => {
+            e.preventDefault();
+            FormService.postForm(form).then(data => {
+                console.log(data)
+                const {message} = data;
+                if(!message.msgError){
+                    setMessage(message);
+                }
+                else{
+                    setMessage(message);
+                }
+            })
+            console.log(form)
+        }
+
+        // const priceModule = () =>{
+            
+        // }
+
         return (
         <div>
-            <Form className="quoteForm" >
+            <Form onSubmit = {onSubmit} className="quoteForm" >
                 <FormGroup>
                     <Label for='Gallons'>Gallons Requested</Label>
                     <Input 
                         type='number'
                         name = 'gallons'
+                        value = {form.gallons}
                         placeholder = 'Number of Gallons'
-                        className = 'mb-3'    
+                        className = 'mb-3'
+                        onChange = {onChange}    
                     />
 
                     <Label for ='address'>address</Label>
@@ -40,16 +75,19 @@ const FormQuote = propr => {
                             value = {form.address +", " + form.city + " " + form.state
                             + ", " + form.zipcode}
                             disabled
+                            onChange={onChange}
                     />
                     
                     <Label for= 'Date'>Delivery Date</Label>
                     <Input 
                         type = 'date'
                         name = 'date'
-                        className = 'mb-3'     
+                        value = {form.deliveryDate}
+                        className = 'mb-3'
+                        onChange ={onChange}     
                     />
 
-                    <Button type='submit' className = 'mb-3' block>Get Price</Button>
+                    <Button type='button' onClick = {onSubmit} className = 'mb-3' block>Get Price</Button>
                     
                     <Label for = 'Suggested Price'>Suggested Price</Label>
                     <Input type="text"

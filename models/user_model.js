@@ -6,7 +6,8 @@ const bcrypt = require('bcrypt') //to encrypt passwords
 const userSchema = new Schema({
     username: {type: String, required: true, unique: true, trim: true, minlength: 7},
     password: {type: String, required: true, minlength: 7, trim: true}, 
-    profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"}
+    profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
+    form: [{type: mongoose.Schema.Types.ObjectId, ref: "Form"}]
 },   {
     timestamps: true
 });
