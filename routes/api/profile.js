@@ -11,9 +11,9 @@ const passport = require('passport');
 const passportConfig = require('../../passport');
 
 router.post('/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-      const {fullname,address,address2,city,state,zipcode} = req.body;
+     
       const profile = new Profile(req.body);
-      console.log("Profile Data: " + profile)
+      console.log("PROFILE DATA: " + profile)
       profile.save(err => {
         if(err)
           res.status(500).json({message: {msgBody: "Error has occurred...", msgError: true}}); 
@@ -33,9 +33,9 @@ router.get('/getprofile',  passport.authenticate('jwt', {session: false}),(req,r
     //to populate data
     User.findById({_id: req.user._id}).populate('profile').exec((err,document) => {
       if(err)
-         res.status(500).json({message: {msgBody: "Error has occured", msgError: true}}); 
+         res.status(500).json({message: {msgBody: "Error has occured", msgError: true, err}}); 
       else {
-         res.status(500).json({profile : document.profile, authenticated: true});
+         res.status(200).json({profile : document.profile, authenticated: true});
       }
       
     })

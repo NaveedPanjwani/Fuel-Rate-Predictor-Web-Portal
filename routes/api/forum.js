@@ -9,11 +9,10 @@ const Forum = require('../../models/Forum');
 const Profile = require('../../models/profile_model');
 const passport = require('passport');
 
-
 router.post('/', passport.authenticate('jwt', {session: false}), async (req,res) => {
-  const {id,address,gallons,date,suggested,total} = req.body;
+  
   const form = new Forum(req.body);
-  console.log("Form Data: " + form)
+  console.log("FORM DATA: " + form)
   form.save(err => {
     if(err)
       res.status(500).json({message: {msgBody: "Error has occurred...", msgError: true, err}}); 
@@ -28,24 +27,42 @@ router.post('/', passport.authenticate('jwt', {session: false}), async (req,res)
     }
   });
 });
-router.get('/get',  passport.authenticate('jwt', {session: false}), async (req,res) => {
-  //to populate data
-  let forum = await Forum.findOne({ id: req.user.id });
-   if (!forum) {
-     History_Factor = 0;
-   } else {
-     History_Factor = 0.01;
-   }
-   res.send(History_Factor);
 
-  // Forum.findById({id: req.user.id}).populate('form').exec((err,document) => {
-  //   if(err)
-  //      res.status(500).json({message: {msgBody: "Error has occured", msgError: true}}); 
-  //   else {
-  //      res.status(500).json({form : document.form, authenticated: true});
-  //   }
+router.get('/getforum',  passport.authenticate('jwt', {session: false}),(req,res) => {
+  //to populate data
+  User.findById({_id: req.user._id}).populate('forum').exec((err,document) => {
+    if(err)
+       res.status(500).json({message: {msgBody: "Error has occured", msgError: true, err}}); 
+    else {
+       res.status(200).json({form : document.form, authenticated: true});
+    }
     
-  // })
+  })
 });
 
 module.exports = router;
+
+
+
+// router.get('/get',  passport.authenticate('jwt', {session: false}),async (req,res) => {
+  //
+  //var userID = "5ea0f2840a6b85f93f4975ed";
+  // var Profile_ID = JSON.stringify(req.user.profile)
+  // result = Profile_ID.replace('"', '');
+  // result = result.replace('"', '');
+  // console.log("req.user.profile: " + result)
+  // const total = Forum.collection.countDocuments({profileID: result})
+  //     .then(data => console.log("Total: " + data));
+
+//   var Profile_ID = JSON.stringify(req.user.profile)
+//   result = Profile_ID.replace('"', '');
+//   result = result.replace('"', '');
+//   console.log("req.user.profile: " + result)
+//   const total = Forum.collection.countDocuments({profileID: result}).then(data => {
+//       console.log(data)
+//       if(data > 0){
+//         res.send('success')
+//         console.log('success')
+//       }
+//   });
+// });

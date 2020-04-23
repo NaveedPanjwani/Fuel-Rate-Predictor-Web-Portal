@@ -25,23 +25,6 @@ const Profile = props =>{
     const [message, setMessage] = useState(null);
     //const authContext = useContext(AuthContext);
 
-    useEffect(() => {
-        // const data = localStorage.getItem('form-input');
-        // if(data){
-        // setProfile(JSON.parse(data));
-        // }
-
-
-        // ProfileService.getProfile().then(data =>{
-        //     console.log(data.profile)
-        // })
-
-    }, [])
-
-    useEffect(()=>{
-        // localStorage.setItem('form-input', JSON.stringify(profile));    
-    });
-
     const onChange = e =>{
         e.preventDefault();
         setProfile({ ...profile, [e.target.name]: e.target.value });

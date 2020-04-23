@@ -9,30 +9,41 @@ import {
     Input,
 } from 'reactstrap';
 import '../App.css';
-//import Message from './Message';
 const FormQuote = props => {
 
         const [form, setForm] = useState({
+            profileID: '',
             address: '',
             gallons: 0,
-            date: '',
-            id: '',
+            data: '',
             suggested: 0,
-            total: 0,
+            total: 0
         })
-
-        const [profile, setProfile] = useState({
-            state : '',
-        });
+        const [history, setHistory] = useState({
+            rate_for_history : 0,
+        }
+        )
         const [message, setMessage] = useState(null);
 
-        useEffect(() => {
-
-            
+        useEffect(() => {       
             ProfileService.getProfile().then(data => {
+                //We need to check if profile exists
+                console.log(data.profile)
                 if(data.profile != null){
-                    setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, id: data.profile._id})
-                    setProfile(data.profile.state)
+                    setForm({...form, address: `${data.profile.address}, ${data.profile.city} ${data.profile.state} ${data.profile.zipcode}`, profileID: data.profile._id})
+                }else{
+                    console.log("ERROR: NEED A PROFILE ADDRESS")
+                }
+            });
+
+        },[]);
+
+
+        useEffect(() => {
+            FormService.getForm().then(data => {
+                console.log(data.form)
+                if(data.form != null){
+                    setHistory({...history, rate_for_history : .01})
                 }else{
                     console.log("ERROR: NEED A PROFILE ADDRESS")
                 }
@@ -41,7 +52,7 @@ const FormQuote = props => {
 
         const onChange = e => {
             e.preventDefault();
-            console.log(e.target.name, e.target.value)
+            //console.log(e.target.name, e.target.value)
             setForm({...form, [e.target.name]:e.target.value})
         }
 
@@ -61,17 +72,9 @@ const FormQuote = props => {
             console.log(form)
         }
         
-        const { address, gallons, date} = form;
-
-
+    
         const priceModule = e => {
-            setForm({...form, [e.target.name]:e.target.value})
-
-            if(!form.address){
-                console.log("Must have an address");
-            }
-
-            else {
+       
             var locationfactor;
             var gallons = form.gallons;
             var gallonsRate;
@@ -80,7 +83,8 @@ const FormQuote = props => {
             const profit = 0.1;
             var suggested; 
             var total;
-            var historyRate = .01;
+            var historyFactor = history.rate_for_history;
+            console.log('RATE HISTORY:' + historyFactor)
 
             var str = form.address;
             if(str.includes("TX")){
@@ -106,15 +110,18 @@ const FormQuote = props => {
                 rateFluctuation = 0.04;
             }
             console.log("FluctuationRate: " + rateFluctuation);
+            console.log("History Factor: " + historyFactor)
 
-            suggested = 1.50 + 1.5*(locationfactor - historyRate + gallonsRate + profit+ rateFluctuation);
+            suggested = 1.50 + 1.5*(locationfactor - historyFactor + gallonsRate + profit+ rateFluctuation);
             console.log("Suggested price:  " + suggested);
             total = suggested * gallons;
             console.log("total price:  " + total);
 
             setForm({...form, suggested: suggested, total: total })
-            }
+            
         }
+
+        const { address, gallons, date} = form;
         
         return (
         <div>
@@ -146,7 +153,9 @@ const FormQuote = props => {
                             onChange ={onChange} />
 
                     <Button type='button' onClick={priceModule} className = 'mb-3' block>Get Price</Button>
+
                     
+
                     <Label for = 'Suggested Price'>Suggested Price</Label>
                     <Input type="text"
                             name="suggested"

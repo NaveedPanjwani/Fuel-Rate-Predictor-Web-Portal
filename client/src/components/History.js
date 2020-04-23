@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table } from 'reactstrap';
+//import FormQuote from './FormQuote';
 
 class History extends Component {
 
@@ -21,7 +22,7 @@ class History extends Component {
                 <tr>
                 <th scope="row">1</th>
                 <td>50</td>
-                <td>Stephany Keys Houston, Tx</td>
+                <td>value here</td>
                 <td>Fri Sep 18 2020 00:01:44</td>
                 <td>2,000</td>
                 <td>10,500</td>
