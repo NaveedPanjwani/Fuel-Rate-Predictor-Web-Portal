@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProfileService from "../Services/ProfileService";
+import AuthService from "../Services/AuthService";
 // import {AuthContext} from '../context/AuthContext';
 // import ProfileItem from './ProfileItem';
 import Message from "./Message";
@@ -47,7 +48,7 @@ const Profile = (props) => {
             className="mb-3"
             onChange={onChange}
             required
-            minlength="5"
+            minLength="5"
           />
           <FormGroup>
             <Label for="exampleAddress">Address 1</Label>
@@ -58,7 +59,7 @@ const Profile = (props) => {
               placeholder="1234 Main St"
               onChange={onChange}
               required
-              minlength="7"
+              minLength="7"
             />
           </FormGroup>
           <FormGroup>
@@ -77,9 +78,9 @@ const Profile = (props) => {
                 <Input
                   type="text"
                   name="city"
+                  required
                   value={profile.city}
                   onChange={onChange}
-                  required
                 />
               </FormGroup>
             </Col>
@@ -155,10 +156,10 @@ const Profile = (props) => {
                   type="text"
                   name="zipcode"
                   required
+                  minLength="5"
+                  maxLength="9"
                   value={profile.zipcode}
                   onChange={onChange}
-                  minlength="5"
-                  maxlength="9"
                 />
               </FormGroup>
             </Col>
