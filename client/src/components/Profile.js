@@ -4,51 +4,50 @@ import ProfileService from '../Services/ProfileService';
 // import ProfileItem from './ProfileItem';
 import Message from './Message';
 import {
-    Button,
-    Form, 
-    FormGroup,
-    Label, 
-    Input,
-    Row, 
-    Col
+  Button,
+  Form, 
+  FormGroup,
+  Label, 
+  Input,
+  Row, 
+  Col
 } from 'reactstrap';
 
 const Profile = props =>{
-    const [profile, setProfile] = useState({
-        fullname: '',
-        address: '',
-        address2: '',
-        city: '',
-        state: '',
-        zipcode: 0, 
-    });
-    const [message, setMessage] = useState(null);
-    //const authContext = useContext(AuthContext);
+  const [profile, setProfile] = useState({
+    fullname: '',
+    address: '',
+    address2: '',
+    city: '',
+    state: '',
+    zipcode: 0, 
+  });
 
-    const onChange = e =>{
-        e.preventDefault();
-        setProfile({ ...profile, [e.target.name]: e.target.value });
-    }
+  const [message, setMessage] = useState(null);
 
-    const onSubmit = e => {
-        e.preventDefault();
-        ProfileService.postProfile(profile).then(data => {
-            console.log(data);
-            const {message} = data;
-            if(!message.msgError){
-                setMessage(message);
-            }
-            else{
-                setMessage(message);
-            }
-        })
-    }
+  const onChange = e =>{
+      e.preventDefault();
+      setProfile({ ...profile, [e.target.name]: e.target.value });
+  }
+
+  const onSubmit = e => {
+    e.preventDefault();
+    ProfileService.postProfile(profile).then(data => {
+        const {message} = data;
+        if(!message.msgError){
+            setMessage(message);
+        }
+        else{
+            setMessage(message);
+        }
+    })
+  }
 
     return(
-        <div>    
+      <div>    
         <Form onSubmit = {onSubmit} className="profile" > 
             <FormGroup>
-                <Label for = "fullname">Full Name</Label>
+              <Label for = "fullname">Full Name</Label>
                 <Input
                      type = "text"
                      name = "fullname"
@@ -56,8 +55,10 @@ const Profile = props =>{
                      placeholder = "Full Name"
                      className = "mb-3"
                      onChange = {onChange}
+                     required
+                     minlength = "5"
                 />
-                <FormGroup>
+              <FormGroup>
                  <Label for="exampleAddress">Address 1</Label>
                  <Input 
                      type="text" 
@@ -65,17 +66,19 @@ const Profile = props =>{
                      value = {profile.address}
                      placeholder="1234 Main St"
                      onChange = {onChange}
+                     required
+                     minlength = "7"
                  />
-                 </FormGroup>
-                 <FormGroup>
-                 <Label for="exampleAddress2">Address 2</Label>
-                 <Input 
-                     type="text" 
-                     name="address2" 
-                     value = {profile.address2}
-                     onChange ={onChange}
+              </FormGroup>
+              <FormGroup>
+                <Label for="exampleAddress2">Address 2</Label>
+                <Input 
+                  type="text" 
+                  name="address2" 
+                  value = {profile.address2}
+                  onChange ={onChange}
                  />
-                 </FormGroup>
+            </FormGroup>
                  <Row form>
                      <Col md={6}>
                      <FormGroup>
@@ -84,7 +87,8 @@ const Profile = props =>{
                          type="text"
                          name="city"
                          value = {profile.city}
-                         onChange = {onChange}       
+                         onChange = {onChange} 
+                         required      
                      />
                      </FormGroup>
                      </Col>
@@ -148,6 +152,7 @@ const Profile = props =>{
                          <option value="WI">WI</option>	
                          <option value="WV">WV</option>
                          <option value="WY">WY</option>
+                         required
                          </Input>
                      </FormGroup>
                      </Col>
@@ -159,6 +164,9 @@ const Profile = props =>{
                          name="zipcode" 
                          value= {profile.zipcode}
                          onChange = {onChange}
+                         required
+                         minlength = "5"
+                         maxlength = "9"
                      />
                      </FormGroup>  
                      </Col>
@@ -167,7 +175,8 @@ const Profile = props =>{
             </FormGroup>
         </Form>
         {message ? <Message message = {message} /> : null }
-        </div>
-)}
+      </div>
+    )
+}
 
 export default Profile;

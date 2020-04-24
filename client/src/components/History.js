@@ -1,47 +1,33 @@
-import React, { Component } from 'react';
+import React, {useState,  useEffect} from 'react';
 import { Table } from 'reactstrap';
-//import FormQuote from './FormQuote';
+import { getHistory } from '../Services/HistoryService';
+import HistoryList from '../components/HistoryList';
 
-class History extends Component {
+const History = () => {
+  const [historyArray, sethistoryArray ] = useState([]);
 
-    render() {
-        return (
-        <div>
-        <Table striped>
-            <thead>
-                <tr>
-                <th>Order #</th>
-                <th>Gallons</th>
-                <th>Delivery Address</th>
-                <th>Date</th>
-                <th>Suggested Price</th>
-                <th>Total Due</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <th scope="row">1</th>
-                <td>50</td>
-                <td>value here</td>
-                <td>Fri Sep 18 2020 00:01:44</td>
-                <td>2,000</td>
-                <td>10,500</td>
-                </tr>
-            </tbody>
-            <tbody>
-                <tr>
-                <th scope="row">2</th>
-                <td>65</td>
-                <td>Stephany Keys Houston, Tx</td>
-                <td>Sat Aug 18 2020 00:02:14</td>
-                <td>3,000</td>
-                <td>7,500</td>
-                </tr>
-            </tbody>
-            </Table>
-            </div>
-        )
-    }
-}
+  useEffect(() => {
+    getHistory().then(data => {
+        sethistoryArray(data.history);
+    })
+  },[]);
+
+  return (
+    <div>
+      <Table striped>
+        <thead>
+          <tr>
+          <th>Delivery Address</th>
+          <th>Delivery Date</th>
+          <th>Gallons</th>
+          <th>Suggested Price</th>
+          <th>Total Due</th>
+          </tr>
+        </thead>
+        <HistoryList historyList={historyArray} />
+      </Table>
+    </div>
+  );
+};
 
 export default History;

@@ -8,6 +8,7 @@ const userSchema = new Schema({
     password: {type: String, required: true, minlength: 7, trim: true}, 
     profile: {type: mongoose.Schema.Types.ObjectId, ref: "Profile"},
     form: {type: mongoose.Schema.Types.Object, ref: "Form"},
+    history: [{type: mongoose.Schema.Types.ObjectId,ref: "History"}],
 },   {
     timestamps: true
 });

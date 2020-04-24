@@ -1,6 +1,6 @@
 export default{
     postForm : user => {
-        console.log('USER: ', user)
+        //console.log('USER: ', user)
         return fetch('/api/forum',{
             method: 'post',
             body: JSON.stringify(user),

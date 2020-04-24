@@ -1,13 +1,14 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-// const UserSchema = new mongoose.Schema({
-//   //username: { type: String, required: true },
-//   Gallons_Requested: { type: Number, required: true },
-//   Delivery_Address: { type: Boolean, required: true, default: false },
-//   Delivery_Date: { type: Date, required: true },
-//   Suggested_Price: { type: Number, required: true },
-//   Total_Amount_Due: { type: Number, required: true }
-// });
+const HistorySchema = new Schema({
+  gallons: { type: Number, required: true },
+  address: { type: String, required: true, default: false },
+  date: { type: String, required: true },
+  suggested: { type: Number, required: true },
+  total: { type: Number, required: true },
+  profileID : {type: String}
+});
 
-// module.exports = User = mongoose.model('forum', UserSchema);
+const History = mongoose.model('History', HistorySchema);
+module.exports = History;
