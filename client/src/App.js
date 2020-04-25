@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom' //might need Route
+import {BrowserRouter as Router, Route} from 'react-router-dom' //might need Route
 import Login from './components/auth/Login';
 import AppNavbar from './components/AppNavbar';
 import FormQuote from './components/FormQuote';
@@ -15,6 +15,7 @@ function App(){
   return(
     <Router>
       <AppNavbar />
+      <Route exact path = "/" component = {Login} />
       <UnPrivateRoute exact path ="/login" component= {Login}/>
       <PrivateRoute exact path = "/forum" component = {FormQuote}/>
       <PrivateRoute exact path="/profile" component = {Profile} />

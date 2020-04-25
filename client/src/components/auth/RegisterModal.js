@@ -70,9 +70,12 @@ const RegisterModal = (props) => {
                                     type = "text"
                                     name = "username"
                                     placeholder="Username"
+                                    required
+                                    minLength = "7"
                                     className = "mb-3"
                                     value={user.username}
                                     onChange = {onChange}
+                                    
                                 />
 
                                 <Label for="password">Password</Label>
@@ -80,6 +83,8 @@ const RegisterModal = (props) => {
                                     type="password"
                                     name = "password"
                                     placeholder="Password"
+                                    required
+                                    minLength = "7"
                                     className = "mb-3"
                                     value={user.password} 
                                     onChange = {onChange}

@@ -47,10 +47,15 @@ app.use('/api/auth', auth);
 app.use('/api/forum', forum)
 
 
-console.log(PORT);
+const port = process.env.PORT || 5000
 
+<<<<<<< HEAD
 app.listen(PORT, () => { 
   console.log(`Your server is running on port ${PORT}`);
+=======
+app.listen(port, () => {
+  console.log(`Your server is running on port ${port}`);
+>>>>>>> newbranch
 });
 
 module.exports = app;

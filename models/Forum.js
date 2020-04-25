@@ -1,12 +1,24 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
+<<<<<<< HEAD
 const UserSchema = new mongoose.Schema({
   //username: { type: String, required: true },
+=======
+const ForumSchema = new Schema({
+  //username: { type: String, required: true },
+  //timestamp: { type: Number, required: true, default: Date.now },
+  profileID: { type: String},
+  address: { type: String, required: true},
+  //city: { type: String, required: true, maxlength: 100 },
+  //state: {type: String,required: true},
+  //zipcode: { type: String, required: true, minlength: 5, maxlength: 9 },
+>>>>>>> newbranch
   gallons: { type: Number, required: true },
-  deliveryAddress: { type: String, required: true, default: false },
   date: { type: String, required: true },
   suggested: { type: Number, required: true },
   total: { type: Number, required: true }
 });
 
-module.exports = User = mongoose.model('forum', UserSchema);
+const Forum = mongoose.model('Forum', ForumSchema);
+module.exports = Forum;

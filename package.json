@@ -4,6 +4,7 @@
   "description": "Software Design Project",
   "main": "server.js",
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server",
     "test": "mocha"
@@ -32,8 +33,13 @@
     "express-validator": "^6.4.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
+<<<<<<< HEAD
     "mongodb": "^3.5.6",
     "mongoose": "^5.9.9",
+=======
+    "mongodb": "^3.5.5",
+    "mongoose": "^5.9.10",
+>>>>>>> newbranch
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
